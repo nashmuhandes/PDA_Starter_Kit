@@ -1,0 +1,83 @@
+class PDALabel : PDAElement {
+	Font fnt;
+	string text;
+	double textScale;
+	AlignType alignment;
+	int textColor;
+	bool wrap;
+	bool autoSize;
+
+	void config(string text = "", Font fnt = NULL, AlignType alignment = AlignType_TopLeft, bool wrap = true,
+				bool autoSize = false, double textScale = 1, int textColor = Font.CR_WHITE) {
+		if (fnt == NULL) {
+			self.fnt = smallfont;
+		}
+		else {
+			self.fnt = fnt;
+		}
+		self.text = text;
+		self.alignment = alignment;
+		self.wrap = wrap;
+		self.autoSize = autoSize;
+		self.textScale = textScale;
+		self.textColor = textColor;
+		self.alpha = 1;
+	}
+
+	PDALabel init(Vector2 pos, Vector2 size, string text = "", Font fnt = NULL, AlignType alignment = AlignType_TopLeft,
+				  bool wrap = true, bool autoSize = false, double textScale = 1, int textColor = Font.CR_WHITE) {
+		self.config(text, fnt, alignment, wrap, autoSize, textScale, textColor);
+		self.setBox(pos, size);
+
+		return self;
+	}
+
+	override void ticker() {
+		if (autoSize) {
+			if (wrap) {
+				int fntHeight = fnt.getHeight();
+				BrokenLines textLines = fnt.breakLines(text, int(box.size.x / textScale));
+				box.size.y = fntHeight * textScale * textLines.count();
+			}
+			else {
+				int fntHeight = fnt.getHeight();
+				box.size.y = fntHeight * textScale;
+				box.size.x = fnt.stringWidth(text) * textScale;
+			}
+		}
+	}
+
+	override void drawer() {
+		PDAAABB beforeClip = getClipAABB();
+		PDAAABB clipTest = boxToScreen();
+		PDAAABB clipRect = clipTest.rectOfIntersection(beforeClip);
+		PDAAABB screenClip = new("PDAAABB");
+		screenClip.size = screenSize();
+		clipRect = clipRect.rectOfIntersection(screenClip);
+		Screen.setClipRect(int(clipRect.pos.x), int(clipRect.pos.y), int(clipRect.size.x), int(clipRect.size.y));
+
+		if (!wrap) {
+			Vector2 pos = getAlignedDrawPos(box.size, (fnt.stringWidth(text), fnt.getHeight()) * textScale, alignment);
+			drawText(pos, fnt, text, textColor, textScale);
+		}
+		else {
+			int fntHeight = fnt.getHeight();
+			BrokenLines printLines = fnt.breakLines(text, int(box.size.x / textScale));
+			Vector2 pos = getAlignedDrawPos(box.size, (0, fntHeight * printLines.count() * textScale), alignment);
+
+			for (int i = 0; i < printLines.count(); i++) {
+				string line = printLines.stringAt(i);
+				Vector2 linePos = getAlignedDrawPos(box.size, (fnt.stringWidth(line) * textScale, 0), alignment);
+				drawText((linePos.x, pos.y + (fntHeight * i * textScale)), fnt, line, textColor, textScale);
+			}
+		}
+
+		Screen.setClipRect(int(beforeClip.pos.x), int(beforeClip.pos.y), int(beforeClip.size.x), int(beforeClip.size.y));
+	}
+
+	override void onUIEvent(PDAUiEvent ev) {
+		if (ev.type == UIEvent.Type_MouseMove) {
+			doHover((ev.mouseX, ev.mouseY));
+		}
+	}
+}

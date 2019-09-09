@@ -1,0 +1,53 @@
+ACTOR TestPDA : PDA 20001
+{
+	Tag "$PDA_TestPDA_Title"
+	PDA.Text "$PDA_TestPDA_Text"
+	PDA.Image "graphics/Test PDA Image.png"
+	PDA.Audio "PDA/TestPDAAudio"
+
+	States
+	{
+		Spawn:
+			PMAP A -1
+			Stop
+	}
+}
+
+ACTOR TestPoem : PDA 20002
+{
+	Tag "$PDA_TestPoem_Title"
+	PDA.Text "$PDA_TestPoem_Text"
+	
+	States
+	{
+		Spawn:
+			NOTE A -1
+			Stop
+	}
+}
+
+ACTOR TestNote : PDA 20003
+{
+	Tag "$PDA_TestNote_Title"
+	PDA.Text "$PDA_TestNote_Text"
+
+	States
+	{
+		Spawn:
+			NOTE A -1
+			Stop
+	}
+}
+
+ACTOR TestStrangeMap : PDA 20004
+{
+	Tag "$PDA_TestStrangeMap_Title"
+	PDA.Image "graphics/PDA/images/StrangeMap.png"
+
+	States
+	{
+		Spawn:
+			NOTE A -1
+			Stop
+	}
+}

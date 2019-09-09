@@ -1,0 +1,13 @@
+DoomEdNums
+{
+	20000 = "PDAReader"
+}
+
+GameInfo
+{
+	AddEventHandlers = "PDASoundHandler"
+}
+
+Map MAP01 "PDA Test Map"
+{
+}

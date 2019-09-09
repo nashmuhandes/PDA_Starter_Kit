@@ -1,0 +1,59 @@
+[enu default]
+
+PDA_READER = "PDA Reader";
+PDA_PICKUP = "New PDA Entry: %s";
+
+PDA_TestPDA_Title = "Dr Steinman 01";
+PDA_TestPDA_Text =
+	"Steinman: Four-oh silk and... done."
+	"\n\n"
+	"Nurse: The nose looks terrific, Doctor Steinman ... Doctor?"
+	"\n\n"
+	"Steinman: You know, looking at it now... I didn't realize how much her face sags... scalpel..."
+	"\n\n"
+	"Nurse: Excuse me?"
+	"\n\n"
+	"Steinman: Scalpel!"
+	"\n\n"
+	"Nurse: Uh, Doctor, she's not booked for a face lift..."
+	"\n\n"
+	"Steinman: Let's just come in here and... [starts whistling]"
+	"\n\n"
+	"Nurse: Doctor... stop cutting... Doctor, stop cutting..."
+	"\n\n"
+	"Nurse: Get me the chief of surgery! Get me the chief of surgery NOW!";
+
+PDA_TestPoem_Title = "The Convert...";
+PDA_TestPoem_Text =
+	"The Convert Wants Wounds, Not Scars"
+	"\n\n"
+	"By Melody S. Gee"
+	"\n\n"
+	"The wound on her lip goes white before returning red."
+	"\n\n"
+	"The virus erupts the lines between chin and lip, between lip and philtrum."
+	"\n\n"
+	"A sore across two continents of skin, a bridge of lava."
+	"\n\n"
+	"She will feel healed when the flesh color returns. The variation is the aberration. Blood courses to deliver a clot. Vessels bouquet under the scalp or in the womb, in places where we heal fastest. Cells scramble a lean-to scab, a mortar of new skin."
+	"\n\n"
+	"The body wants to draw its seams together."
+	"\n\n"
+	"But Jesus hangs before the convert eternally wounded, eternally weeping from his gashes."
+	"\n\n"
+	"How to open hers without nails or thorns? How to measure heartbeats without seeing blood heave out its rhythms?"
+	"\n\n"
+	"A gush slows under pressure even as the pulse goes on. Our lesions take air, our infections seek sunlight. How to resist our unwilled mechanisms to staunch?"
+	"\n\n"
+	"We push through the same tear in the world and leave it sore."
+	"\n\n"
+	"When we come, we come open."
+	"\n\n"
+	"Pick a wound slow to bleed and slower to seal. We cream the scar to fade our atlas of living—what itched its way to a silver road, what shadow constellation of pox. The convert counts Jesus' wounds."
+	"\n\n"
+	"If you count both hands and both feet, all lashes and piercings and the forsaken cry, the number is higher and lower than anyone's.";
+
+PDA_TestNote_Title = "Mysterious Note";
+PDA_TestNote_Text = "There was a hole here. It's gone now.";
+
+PDA_TestStrangeMap_Title = "Strange Map";

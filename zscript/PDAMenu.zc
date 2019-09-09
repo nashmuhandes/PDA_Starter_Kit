@@ -1,0 +1,439 @@
+// Copyright 2019 Nash Muhandes
+// All rights reserved.
+//
+// Redistribution and use in source and binary forms, with or without
+// modification, are permitted provided that the following conditions
+// are met:
+//
+// 1. Redistributions of source code must retain the above copyright
+//    notice, this list of conditions and the following disclaimer.
+// 2. Redistributions in binary form must reproduce the above copyright
+//    notice, this list of conditions and the following disclaimer in the
+//    documentation and/or other materials provided with the distribution.
+// 3. The name of the author may not be used to endorse or promote products
+//    derived from this software without specific prior written permission.
+//
+// THIS SOFTWARE IS PROVIDED BY THE AUTHOR ``AS IS'' AND ANY EXPRESS OR
+// IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES
+// OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED.
+// IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY DIRECT, INDIRECT,
+// INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT
+// NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
+// DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY
+// THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
+// (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF
+// THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+
+//===========================================================================
+//
+// PDAMenu
+// A custom PDA menu
+// Powered by ZForms by Gutawer and phantombeta
+//
+//===========================================================================
+
+class PDAMenu : PDAGenericMenu
+{
+	const BASE_RES_WIDTH = 640;
+	const BASE_RES_HEIGHT = 400;
+
+    PDAMenuHandler handler;
+	Font fnt;
+	PlayerPawn pmo;
+
+	int mouseX;
+	int mouseY;
+
+	// Colours
+	int fntColor;
+	Color UIColor;
+
+	// PDA list
+	PDAFrame PDAListFrame;
+	PDAFrame PDAList;
+
+	// PDA content
+	PDAFrame PDAContentFrame;
+	PDAFrame PDAContent;
+	PDAImage PDAContentImage;
+	PDALabel PDAContentText;
+
+	// Custom widgets
+	PDAFillableFrame PDAListScrollbar;
+	PDAFillableFrame PDAContentScrollbar;
+
+	int GetFontHeight(void)
+	{
+		if (!fnt) return 0;
+		return fnt.GetHeight();
+	}
+
+	int GetTotalPDAs(void)
+	{
+		int totalPDAs = 0;
+		for (Inventory item = pmo.Inv; item != NULL; item = item.Inv)
+		{
+			if (item is "PDA") totalPDAs++;
+		}
+		return totalPDAs;
+	}
+
+	int GetMaxShowablePDAs(void)
+	{
+		if (!PDAListFrame) return 0;
+		return PDAListFrame.box.size.Y / GetFontHeight();
+	}
+
+	int GetMaxShowableContentTextLines(void)
+	{
+		if (!PDAContentText) return 0;
+		return PDAContentFrame.box.size.Y / GetFontHeight();
+	}
+
+	int GetTotalContentLines(void)
+	{
+		int fntHeight = fnt.GetHeight();
+		BrokenLines textLines = fnt.breakLines(PDAContentText.text, int(PDAContentText.box.size.x / PDAContentText.textScale));
+		return textLines.count();
+	}
+
+    override void Init(Menu parent)
+    {
+        Super.Init(parent);
+
+		// Set PDA menu resolution
+        SetBaseResolution((640, 400));
+
+		// Set PDA menu font
+        fnt = Font.GetFont("PDAFONT");
+
+		// Customize UI colours
+		UIColor = Color(118, 118, 206);
+		fntColor = Font.CR_LightBlue;
+
+		pmo = players[consoleplayer].mo;
+        handler = new('PDAMenuHandler');
+        handler.menu = self;
+
+		// Pre-build array of PDAs
+		Array<Inventory> myPDAs;
+		myPDAs.Clear();
+		int totalPDAs = GetTotalPDAs();
+		for (Inventory item = pmo.Inv; item != NULL; item = item.Inv)
+		{
+			if (item is "PDA")
+			{
+				myPDAs.Push(item);
+			}
+		}
+
+		// Sort PDA array alphabetically
+		for (int x = 0; x < myPDAs.Size(); x++)
+		{
+			for (int y = 0; y < myPDAs.Size() - 1; y++)
+			{
+				if (StringTable.Localize(myPDAs[y].GetTag()) > StringTable.Localize(myPDAs[y + 1].GetTag()))
+				{
+					let p = myPDAs[y + 1];
+					myPDAs[y + 1] = myPDAs[y];
+					myPDAs[y] = p;
+				}
+			}
+		}
+
+		// PDA background
+        let bg = new('PDAImage').Init
+		(
+            (0, 0),
+            (640, 400),
+            "graphics/PDA/PDA Background.png",
+            PDAImage.AlignType_TopLeft
+        );
+        bg.Pack(mainFrame);
+
+		// PDA list frame "container"
+		// This is the outer frame of the list
+		PDAListFrame = new('PDAFrame').Init
+		(
+            (117, 84),
+            (140, 230)
+		);
+		PDAListFrame.Pack(mainFrame);
+
+		// Actual list of PDAs collected
+		// This is the frame that will actually scroll
+		// Will be automatically cropped by the outer frame
+		// Set the frame height to the amount of PDAs owned
+		PDAList = new('PDAFrame').Init
+		(
+            (0, 0),
+            (140, GetFontHeight() * totalPDAs)
+		);
+		PDAList.Pack(PDAListFrame);
+
+		// PDA list scrollbar background
+		let PDAListScrollbarBG = PDAFillableFrame(new('PDAFillableFrame').Init
+		(
+			(140 - 4, 0),
+			(4, 230)
+		));
+		PDAListScrollbarBG.fillColor = Color(UIColor.R / 2, UIColor.G / 2, UIColor.B / 2);
+		PDAListScrollbarBG.Pack(PDAListFrame);
+
+		// PDA list scrollbar
+		if (totalPDAs > 0)
+		{
+			double scrollbarFrameHeight = PDAListFrame.box.size.Y;
+			double scrollbarContentHeight = PDAList.box.size.Y;
+			double scrollbarRatio = scrollbarFrameHeight / scrollbarContentHeight;
+			double scrollBarArea = scrollbarFrameHeight;// - scrollbarArrowHeight * 2;
+			int scrollbarHeight = int(scrollBarArea * scrollbarRatio);
+
+			PDAListScrollbar = PDAFillableFrame(new('PDAFillableFrame').Init
+			(
+				(140 - 4, 0),
+				(4, scrollbarHeight)
+			));
+
+			PDAListScrollbar.fillColor = UIColor;
+			PDAListScrollbar.Pack(PDAListFrame);
+
+			// Hide the scrollbar if there are too little items
+			if (GetTotalPDAs() <= GetMaxShowablePDAs())
+			{
+				PDAListScrollbar.disabled = true;
+				PDAListScrollbar.hidden = true;
+			}
+			else
+			{
+				PDAListScrollbar.disabled = false;
+				PDAListScrollbar.hidden = false;
+			}
+		}
+
+		// Add clickable elements to the PDA list
+		int itemY = 0;
+		for (int i = 0; i < myPDAs.Size(); i++)
+		{
+			if (myPDAs[i])
+			{
+				// Buttons and text have to be separate because
+				// button text is automatically center-aligned >_<
+
+				// Button element
+				let btn = PDAFillableButton(new('PDAFillableButton').Init
+				(
+					(0, itemY),
+					(140 - 4, GetFontHeight()),
+					cmdHandler: handler,
+					command: "ActivatePDA" .. ":" .. myPDAs[i].GetClassName()
+				));
+				btn.SetTexture
+				(
+					"TNT1A0",
+					"TNT1A0",
+					"TNT1A0",
+					""
+				);
+				btn.fillColor = UIColor;
+				btn.Pack(PDAList);
+
+				// Text element
+				let txt = new('PDALabel').Init
+				(
+					(0, itemY),
+					(0, GetFontHeight()),
+					text: StringTable.Localize(myPDAs[i].GetTag()),
+					fnt: fnt,
+					wrap: false,
+					autoSize: true,
+					textColor: fntColor
+				);
+				txt.Pack(PDAList);
+
+				itemY += GetFontHeight();
+			}
+		}
+
+		// PDA content frame "container"
+		PDAContentFrame = new('PDAFrame').Init
+		(
+            (261, 84),
+            (262, 230)
+		);
+		PDAContentFrame.Pack(mainFrame);
+
+		// PDA content (the scrollable part)
+		// Y size set to 0 as it will be dynamically sized later
+		PDAContent = new('PDAFrame').Init
+		(
+            (0, 0),
+            (262 - 8, 0)
+		);
+		PDAContent.Pack(PDAContentFrame);
+
+		// PDA content text
+		// Y size set to 0 as it will be dynamically sized later
+		PDAContentText = new('PDALabel').Init
+		(
+			(0, 0),
+			(262 - 8, 0),
+			text: "",
+			fnt: fnt,
+			wrap: true,
+			autoSize: true,
+			textColor: fntColor
+		);
+		PDAContentText.Pack(PDAContent);
+
+		// PDA content scrollbar background
+		let PDAContentScrollbarBG = PDAFillableFrame(new('PDAFillableFrame').Init
+		(
+			(PDAContentFrame.box.size.X - 4, 0),
+			(4, 230)
+		));
+		PDAContentScrollbarBG.fillColor = Color(UIColor.R / 2, UIColor.G / 2, UIColor.B / 2);
+		PDAContentScrollbarBG.Pack(PDAContentFrame);
+
+		// PDA content scrollbar
+		PDAContentScrollbar = PDAFillableFrame(new('PDAFillableFrame').Init
+		(
+			(PDAContentFrame.box.size.X - 4, 0),
+			(4, 0)
+		));
+
+		PDAContentScrollbar.fillColor = UIColor;
+		PDAContentScrollbar.Pack(PDAContentFrame);
+		PDAContentScrollbar.disabled = true;
+		PDAContentScrollbar.hidden = true;
+    }
+
+	override bool OnUIEvent(UIEvent ev)
+	{
+		// Store mouse coordinates persistently
+		if (ev.Type == ev.Type_MouseMove)
+		{
+			mouseX = ev.mouseX;
+			mouseY = ev.mouseY;
+		}
+
+		if (PDAListFrame && PDAList)
+		{
+			// PDA List
+			if (PDAListFrame.IsEnabled() && PDAListFrame.BoxToScreen().PointCollides((mouseX, mouseY)))
+			{
+				int scrollY;
+
+				double scrollbarStepY;
+				if (GetTotalPDAs() > 0) scrollbarStepY = GetFontHeight() * (PDAListFrame.box.size.Y / PDAList.box.size.Y);
+				double scrollbarY;
+
+				// Mousewheel scrolling
+				if (ev.Type == ev.Type_WheelUp && PDAList.box.pos.Y < 0)
+				{
+					scrollY += GetFontHeight();
+					scrollbarY += scrollbarStepY;
+				}
+				else if (ev.Type == ev.Type_WheelDown && PDAList.box.pos.Y > -(GetFontHeight() * (GetTotalPDAs() - GetMaxShowablePDAs())))
+				{
+					scrollY -= GetFontHeight();
+					scrollbarY -= scrollbarStepY;
+				}
+
+				PDAList.box.pos.Y += scrollY;
+				if (PDAListScrollbar) PDAListScrollbar.box.pos.Y -= scrollbarY;
+
+				PDAHoverUpdate();
+			}
+		}
+
+		// PDA Content
+		if (PDAContentFrame.IsEnabled() && PDAContentFrame.BoxToScreen().PointCollides((mouseX, mouseY)))
+		{
+			int scrollY;
+
+			double scrollbarStepY;
+			if (GetTotalContentLines() > 0) scrollbarStepY = GetFontHeight() * (PDAContentFrame.box.size.Y / PDAContent.box.size.Y);
+			double scrollbarY;
+
+			// Mousewheel scrolling
+			if (ev.Type == ev.Type_WheelUp && PDAContent.box.pos.Y < 0)
+			{
+				scrollY += GetFontHeight();
+				scrollbarY += scrollbarStepY;
+			}
+			else if (ev.Type == ev.Type_WheelDown && PDAContent.box.pos.Y > -(GetFontHeight() * (GetTotalContentLines() - GetMaxShowableContentTextLines())))
+			{
+				scrollY -= GetFontHeight();
+				scrollbarY -= scrollbarStepY;
+			}
+
+			PDAContent.box.pos.Y += scrollY;
+			if (PDAContentScrollbar) PDAContentScrollbar.box.pos.Y -= scrollbarY;
+		}
+
+		return Super.OnUIEvent(ev);
+	}
+
+	void PDAHoverUpdate(void)
+	{
+		// Force a UI event...
+		let updateEv = new("PDAUiEvent");
+		updateEv.Type = UiEvent.Type_MouseMove;
+		updateEv.MouseX = mouseX;
+		updateEv.MouseY = mouseY;
+		PDAList.onUIEvent(updateEv);
+	}
+
+	override void Ticker(void)
+	{
+		if (!pmo)
+		{
+			Console.Printf("Error: PDAMenu without player pawn");
+			Close();
+			return;
+		}
+		Super.Ticker();
+	}
+
+	override void OnDestroy(void)
+	{
+		PlayerInfo p = players[consoleplayer];
+		if (pmo && p && players[consoleplayer].mo)
+		{
+			// Stop any PDA sounds currently playing when exiting the menu
+			let pdaReader = pmo.FindInventory("PDAReader", true);
+			if (pdaReader && pmo == players[consoleplayer].mo)
+			{
+				EventHandler.SendNetworkEvent("EV_StopPDASound");
+			}
+		}
+
+		Super.OnDestroy();
+	}
+}
+
+class PDAFillableFrame : PDAFrame
+{
+	Color fillColor;
+	override void Drawer(void)
+	{
+		Super.Drawer();
+		Fill((0, 0), box.size, fillColor, 1.0);
+	}
+}
+
+class PDAFillableButton : PDAButton
+{
+	Color fillColor;
+	override void Drawer(void)
+	{
+		Super.Drawer();
+
+		if (curButtonState == ButtonState_Hover)
+		{
+			Fill((0, 0), box.size, fillColor, 1.0);
+		}
+	}
+}
+
