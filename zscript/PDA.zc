@@ -35,7 +35,7 @@ class PDA : Inventory
 {
 	Default
 	{
-		Tag "[Untitled PDA]";
+		Tag "$PDA_DEFAULT_TITLE";
 		Inventory.MaxAmount 1;
 	}
 

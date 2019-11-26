@@ -2,6 +2,7 @@
 
 PDA_READER = "PDA Reader";
 PDA_PICKUP = "New PDA Entry: %s";
+PDA_DEFAULT_TITLE = "[Untitled PDA]";
 
 PDA_TestPDA_Title = "Dr Steinman 01";
 PDA_TestPDA_Text =
