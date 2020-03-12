@@ -2,6 +2,8 @@
 /// Contains a mainFrame to put items in.
 class PDAGenericMenu : GenericMenu {
 	PDAFrame mainFrame;
+	int mouseX;
+	int mouseY;
 
 	override void init(Menu parent) {
 		Super.init(parent);
@@ -16,6 +18,13 @@ class PDAGenericMenu : GenericMenu {
 	}
 
 	override void ticker() {
+		// Trigger a mouse movement UI event to fix things "sticking" sometimes
+		let zfEv = new("PDAUiEvent");
+		zfEv.type = UIEvent.Type_MouseMove;
+		zfEv.mouseX = mouseX;
+		zfEv.mouseY = mouseY;
+		mainFrame.onUIEvent(zfEv);
+
 		Super.ticker();
 		mainFrame.ticker();
 	}
@@ -27,6 +36,11 @@ class PDAGenericMenu : GenericMenu {
 
 	// "relay" all UI events down to the elements so they can handle them
 	override bool onUIEvent(UIEvent ev) {
+		if (ev.type == UIEvent.Type_MouseMove) {
+			mouseX = ev.mouseX;
+			mouseY = ev.mouseY;
+		}
+
 		let zfEv = new("PDAUiEvent");
 
 		PDAUiEvent.fromGZDUiEvent(ev, zfEv);
@@ -58,6 +72,13 @@ class PDAEventHandlerMenu ui {
 	}
 
 	protected virtual void ticker() {
+		// Trigger a mouse movement UI event to fix things "sticking" sometimes
+		let zfEv = new("PDAUiEvent");
+		zfEv.type = UIEvent.Type_MouseMove;
+		zfEv.mouseX = inputProc_MouseX;
+		zfEv.mouseY = inputProc_MouseY;
+		mainFrame.onUIEvent(zfEv);
+
 		mainFrame.ticker();
 	}
 

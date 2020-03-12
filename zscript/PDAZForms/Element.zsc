@@ -185,6 +185,10 @@ class PDAElement ui {
 	/// Draws a grid of images according to the size Vector2.
 	/// Scales the image instead of tiling if possible.
 	void drawTiledImage(Vector2 relPos, Vector2 size, string imageName, bool animate, Vector2 scale = (1, 1), double alpha = 1.0) {
+		if (scale.x == 0 || scale.y == 0) {
+			return;
+		}
+
 		Vector2 imageSize = texSize(imageName) * getScale();
 
 		// Abort if the image has an invalid resolution.
@@ -193,7 +197,7 @@ class PDAElement ui {
 		}
 
 		PDAAABB beforeClip = getClipAABB();
-		PDAAABB clipRect = boxToScreen ().rectOfIntersection(beforeClip);
+		PDAAABB clipRect = boxToScreen().rectOfIntersection(beforeClip);
 		PDAAABB screenClip = new("PDAAABB");
 		screenClip.size = screenSize();
 		clipRect = clipRect.rectOfIntersection(screenClip);
@@ -235,37 +239,53 @@ class PDAElement ui {
 
 	/// Draw a box using a PDABoxTextures struct.
 	void drawBox(Vector2 pos, Vector2 size, PDABoxTextures textures, bool animate, Vector2 scale = (1, 1)) {
-		// Draw the corners.
-		// Top-left corner
-		string tlName = textures.corners[textures.C_TOPLEFT];
-		Vector2 cornerSize = scaleVec(texSize(tlName), scale);
-		drawImage(pos, tlName, animate, scale);
-		// Top-right corner
-		string trName = textures.corners[textures.C_TOPRIGHT];
-		drawImage((pos.x + (size.x - cornerSize.x) * scale.x, pos.y), trName, animate, scale);
-		// Bottom-left corner
-		string blName = textures.corners[textures.C_BOTTOMLEFT];
-		drawImage((pos.x, pos.y + (size.y - cornerSize.y) * scale.y), blName, animate, scale);
-		// Bottom-right corner
-		string brName = textures.corners[textures.C_BOTTOMRIGHT];
-		drawImage(pos + scaleVec((size - cornerSize), scale), brName, animate, scale);
+        // Corner names
+        string tlName = textures.corners[textures.C_TOPLEFT];
+        string trName = textures.corners[textures.C_TOPRIGHT];
+        string blName = textures.corners[textures.C_BOTTOMLEFT];
+        string brName = textures.corners[textures.C_BOTTOMRIGHT];
+        // Side names
+        string tName = textures.sides[textures.S_TOP];
+        string bName = textures.sides[textures.S_BOTTOM];
+        string lName = textures.sides[textures.S_LEFT];
+        string rName = textures.sides[textures.S_RIGHT];
 
-		// Draw the sides.
-		// Top
-		string tName = textures.sides[textures.S_TOP];
-		drawTiledImage((pos.x + cornerSize.x * scale.x, pos.y), scaleVec((size.x - (cornerSize.x * 2), cornerSize.y), scale), tName, animate, scale);
-		// Bottom
-		string bName = textures.sides[textures.S_BOTTOM];
-		drawTiledImage((pos.x + cornerSize.x * scale.x, pos.y + (size.y - cornerSize.y) * scale.y), scaleVec((size.x - (cornerSize.x * 2), cornerSize.y), scale), bName, animate, scale);
-		// Left
-		string lName = textures.sides[textures.S_LEFT];
-		drawTiledImage((pos.x, pos.y + cornerSize.y * scale.y), scaleVec((cornerSize.x, size.y - (cornerSize.y * 2)), scale), lName, animate, scale);
-		// Right
-		string rName = textures.sides[textures.S_RIGHT];
-		drawTiledImage((pos.x + (size.x - cornerSize.x) * scale.x, pos.y + cornerSize.y * scale.y), scaleVec((cornerSize.x, size.y - (cornerSize.y * 2)), scale), rName, animate, scale);
+        /* Get the scaled sizes. */
+        Vector2 tileSize = scaleVec(texSize(tlName), scale);
 
-		// Draw the middle.
-		drawTiledImage(pos + scaleVec(cornerSize, scale), scaleVec(size - (cornerSize * 2), scale), textures.midTex, animate);
+        /* Calculate the positions and sizes. */
+        // Middle
+        Vector2 mPos = pos + tileSize;
+        Vector2 mSize = size - tileSize * 2;
+        // Sides
+        Vector2 tbSize = (size.x - (tileSize.x * 2), tileSize.y); // Top and bottom
+        Vector2 lrSize = (tileSize.x, size.y - (tileSize.y * 2)); // Left and right
+
+        Vector2 tPos = pos + (tileSize.x, 0); // Top
+        Vector2 bPos = mPos + (0, mSize.y); // Bottom
+
+        Vector2 lPos = pos + (0, tileSize.y); // Left
+        Vector2 rPos = (mPos.x, lPos.y) + (mSize.x, 0); // Right
+        // Corners
+        Vector2 tlPos = pos; // Top left
+        Vector2 trPos = tPos + (tbSize.x, 0); // Top right
+        Vector2 blPos = lPos + (0, lrSize.y); // Bottom left
+        Vector2 brPos = bPos + (tbSize.x, 0); // Bottom right
+
+        /* Draw the corners. */
+        drawImage(tlPos, tlName, animate, scale); // Top left
+        drawImage(trPos, trName, animate, scale); // Top right
+        drawImage(blPos, blName, animate, scale); // Bottom left
+        drawImage(brPos, brName, animate, scale); // Bottom right
+
+        /* Draw the sides. */
+        drawTiledImage(tPos, tbSize, tName, animate, scale); // Top
+        drawTiledImage(bPos, tbSize, bName, animate, scale); // Bottom
+        drawTiledImage(lPos, lrSize, lName, animate, scale); // Left
+        drawTiledImage(rPos, lrSize, rName, animate, scale); // Right
+
+        /* Draw the middle. */
+        drawTiledImage(mPos, mSize, textures.midTex, animate);
 	}
 
 	/// Draws a coloured region, taking into account relative positioning, and scale factor.
