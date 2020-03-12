@@ -63,40 +63,12 @@ class PDAMenu : PDAGenericMenu
 	PDAFillableFrame PDAListScrollbar;
 	PDAFillableFrame PDAContentScrollbar;
 
-	int GetFontHeight(void)
-	{
-		if (!fnt) return 0;
-		return fnt.GetHeight();
-	}
-
-	int GetTotalPDAs(void)
-	{
-		int totalPDAs = 0;
-		for (Inventory item = pmo.Inv; item != NULL; item = item.Inv)
-		{
-			if (item is "PDA") totalPDAs++;
-		}
-		return totalPDAs;
-	}
-
-	int GetMaxShowablePDAs(void)
-	{
-		if (!PDAListFrame) return 0;
-		return PDAListFrame.box.size.Y / GetFontHeight();
-	}
-
-	int GetMaxShowableContentTextLines(void)
-	{
-		if (!PDAContentText) return 0;
-		return PDAContentFrame.box.size.Y / GetFontHeight();
-	}
-
-	int GetTotalContentLines(void)
-	{
-		int fntHeight = fnt.GetHeight();
-		BrokenLines textLines = fnt.breakLines(PDAContentText.text, int(PDAContentText.box.size.x / PDAContentText.textScale));
-		return textLines.count();
-	}
+	//===========================================================================
+	//
+	//
+	//
+	//
+	//===========================================================================
 
     override void Init(Menu parent)
     {
@@ -376,16 +348,6 @@ class PDAMenu : PDAGenericMenu
 		return Super.OnUIEvent(ev);
 	}
 
-	void PDAHoverUpdate(void)
-	{
-		// Force a UI event...
-		let updateEv = new("PDAUiEvent");
-		updateEv.Type = UiEvent.Type_MouseMove;
-		updateEv.MouseX = mouseX;
-		updateEv.MouseY = mouseY;
-		PDAList.onUIEvent(updateEv);
-	}
-
 	override void Ticker(void)
 	{
 		if (!pmo)
@@ -412,7 +374,66 @@ class PDAMenu : PDAGenericMenu
 
 		Super.OnDestroy();
 	}
+
+	//===========================================================================
+	//
+	//
+	//
+	//
+	//===========================================================================
+
+	int GetFontHeight(void)
+	{
+		if (!fnt) return 0;
+		return fnt.GetHeight();
+	}
+
+	int GetTotalPDAs(void)
+	{
+		int totalPDAs = 0;
+		for (Inventory item = pmo.Inv; item != NULL; item = item.Inv)
+		{
+			if (item is "PDA") totalPDAs++;
+		}
+		return totalPDAs;
+	}
+
+	int GetMaxShowablePDAs(void)
+	{
+		if (!PDAListFrame) return 0;
+		return PDAListFrame.box.size.Y / GetFontHeight();
+	}
+
+	int GetMaxShowableContentTextLines(void)
+	{
+		if (!PDAContentText) return 0;
+		return PDAContentFrame.box.size.Y / GetFontHeight();
+	}
+
+	int GetTotalContentLines(void)
+	{
+		int fntHeight = fnt.GetHeight();
+		BrokenLines textLines = fnt.breakLines(PDAContentText.text, int(PDAContentText.box.size.x / PDAContentText.textScale));
+		return textLines.count();
+	}
+
+	void PDAHoverUpdate(void)
+	{
+		// Force a UI event...
+		let updateEv = new("PDAUiEvent");
+		updateEv.Type = UiEvent.Type_MouseMove;
+		updateEv.MouseX = mouseX;
+		updateEv.MouseY = mouseY;
+		PDAList.onUIEvent(updateEv);
+	}
 }
+
+//===========================================================================
+//
+//
+//
+//
+//===========================================================================
 
 class PDAFillableFrame : PDAFrame
 {

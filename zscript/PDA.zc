@@ -33,12 +33,6 @@
 
 class PDA : Inventory
 {
-	Default
-	{
-		Tag "$PDA_DEFAULT_TITLE";
-		Inventory.MaxAmount 1;
-	}
-
 	String pdaText;
 	property Text: pdaText;
 
@@ -47,6 +41,26 @@ class PDA : Inventory
 
 	Sound pdaAudio;
 	property Audio: pdaAudio;
+
+	//===========================================================================
+	//
+	//
+	//
+	//
+	//===========================================================================
+
+	Default
+	{
+		Tag "$PDA_DEFAULT_TITLE";
+		Inventory.MaxAmount 1;
+	}
+
+	//===========================================================================
+	//
+	//
+	//
+	//
+	//===========================================================================
 
 	override String PickupMessage(void)
 	{
