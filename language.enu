@@ -4,25 +4,27 @@ PDA_READER = "PDA Reader";
 PDA_PICKUP = "New PDA Entry: %s";
 PDA_DEFAULT_TITLE = "[Untitled PDA]";
 
-PDA_TestPDA_Title = "Dr Steinman 01";
+PDA_TestPDA_Title = "Jonny's Code";
 PDA_TestPDA_Text =
-	"Steinman: Four-oh silk and... done."
+	"Nate: God damn, the cops are cracking down hard tonight."
 	"\n\n"
-	"Nurse: The nose looks terrific, Doctor Steinman ... Doctor?"
+	"Samson: What's the deal anyway?"
 	"\n\n"
-	"Steinman: You know, looking at it now... I didn't realize how much her face sags... scalpel..."
+	"Nate: Apparently Constantine's in town. The GRF's all riled up."
 	"\n\n"
-	"Nurse: Excuse me?"
+	"Samson: Hmph, sounds like a GRF's wet dream. Thrashing and looting to their heart's content."
 	"\n\n"
-	"Steinman: Scalpel!"
+	"Nate: Speaking of loot. Jonny got screwed real bad."
 	"\n\n"
-	"Nurse: Uh, Doctor, she's not booked for a face lift..."
+	"Samson: What happened?"
 	"\n\n"
-	"Steinman: Let's just come in here and... [starts whistling]"
+	"Nate: They thrashed his whole place, picked it clean."
 	"\n\n"
-	"Nurse: Doctor... stop cutting... Doctor, stop cutting..."
+	"Samson: Did they get his \"precious treasure\"?"
 	"\n\n"
-	"Nurse: Get me the chief of surgery! Get me the chief of surgery NOW!";
+	"Nate: Yeah. Strung him upside down from a tree to get the code out of him. I heard him yell 369."
+	"\n\n"
+	"Samson: Heh, too bad there's nothing left to take.";
 
 PDA_TestPoem_Title = "The Convert...";
 PDA_TestPoem_Text =
