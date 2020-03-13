@@ -38,7 +38,7 @@ class PDAMenuHandler : PDAHandler
     override void ButtonClickCommand(PDAButton caller, String command)
     {
 		if (!menu) return;
-		if (!menu.PDAContentText) return;
+		if (!menu.pdaContentText || !menu.pdaContentBackground) return;
 
 		// Parse the command
 		Array<String> strings;
@@ -54,56 +54,9 @@ class PDAMenuHandler : PDAHandler
 			String txt = GetDefaultByType((class<PDA>)(cls)).pdaText;
 			String pdaText = StringTable.Localize(txt);
 
-			// Update content image
-			if (menu.PDAContentImage) menu.PDAContentImage.Unpack();
-			menu.PDAContentImage = new ('PDAImage').Init
-			(
-				(0, 0),
-				(262, 230),
-				GetDefaultByType((class<PDA>)(cls)).pdaImage,
-				PDAImage.AlignType_TopCenter
-			);
-			menu.PDAContentImage.Pack(menu.PDAContentFrame);
-
-			// Update content text
-			if (menu.PDAContentText) menu.PDAContentText.Unpack();
-			menu.PDAContentText = new('PDALabel').Init
-			(
-				(0, 0),
-				(262 - 8, 0),
-				text: pdaText,
-				fnt: menu.fnt,
-				wrap: true,
-				autoSize: true,
-				textColor: menu.fntColor
-			);
-			menu.PDAContentText.Pack(menu.PDAContent);
-
-			// Reset scroll position
-			menu.PDAContent.box.pos.Y = 0;
-			menu.PDAContentScrollbar.box.pos.Y = 0;
-
-			// Resize content frame
-			menu.PDAContent.box.size.Y = menu.GetFontHeight() * menu.PDAContentText.textScale * menu.GetTotalContentLines();
-
-			// Update content scrollbar
-			if (menu.GetTotalContentLines() > menu.GetMaxShowableContentTextLines())
-			{
-				double scrollbarFrameHeight = menu.PDAContentFrame.box.size.Y;
-				double scrollbarContentHeight = menu.PDAContent.box.size.Y;
-				double scrollbarRatio = scrollbarFrameHeight / scrollbarContentHeight;
-				double scrollBarArea = scrollbarFrameHeight;// - scrollbarArrowHeight * 2;
-				int scrollbarHeight = int(scrollBarArea * scrollbarRatio);
-				menu.PDAContentScrollbar.box.size.Y = scrollbarHeight;
-				menu.PDAContentScrollbar.disabled = false;
-				menu.PDAContentScrollbar.hidden = false;
-
-			}
-			else
-			{
-				menu.PDAContentScrollbar.disabled = true;
-				menu.PDAContentScrollbar.hidden = true;
-			}
+			// Update content image and text
+			menu.pdaContentBackground.image = GetDefaultByType((class<PDA>)(cls)).pdaImage;
+			menu.pdaContentText.SetText(pdaText);
 
 			// Play sound if available
 			Sound snd = GetDefaultByType((class<PDA>)(cls)).pdaAudio;
@@ -122,5 +75,5 @@ class PDAMenuHandler : PDAHandler
 				EventHandler.SendNetworkEvent("EV_StopPDASound");
 			}
 		}
-    }
+	}
 }
