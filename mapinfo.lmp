@@ -5,7 +5,7 @@ DoomEdNums
 
 GameInfo
 {
-	AddEventHandlers = "PDASoundHandler"
+	AddEventHandlers = "PDAEventHandler"
 }
 
 Map MAP01 "PDA Test Map"

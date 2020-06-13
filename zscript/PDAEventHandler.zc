@@ -30,7 +30,7 @@
 //
 //===========================================================================
 
-class PDASoundHandler : EventHandler
+class PDAEventHandler : EventHandler
 {
 	override void NetworkProcess(ConsoleEvent e)
 	{
