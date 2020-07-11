@@ -226,7 +226,7 @@ class PDAClickableList : PDAScrollableFrame
 	//
 	//===========================================================================
 
-	void AddLine(String newItem, int clr)
+	virtual void AddLine(String newItem)
 	{
 		if (!content) return;
 
@@ -263,8 +263,102 @@ class PDAClickableList : PDAScrollableFrame
 			fnt: parentMenu.fnt,
 			wrap: false,
 			autoSize: true,
-			textColor: clr
+			textColor: parentMenu.fntColor
 		);
+		txt.Pack(content);
+
+		// Increase the Y size of the content frame
+		content.box.size.Y += parentMenu.GetFontHeight();
+
+		// Increase Y position of the next item to add
+		currentLineYPos += parentMenu.GetFontHeight();
+	}
+}
+
+//===========================================================================
+//
+// PDAOwnedPDALabel
+// A subclass of PDALabel that holds a reference to the PDA item class
+// Used to determine read/unread status
+//
+//===========================================================================
+
+class PDAOwnedPDALabel : PDALabel
+{
+	PDAMenu parentMenu;
+	class<PDA> pdacls;
+
+	override void Drawer(void)
+	{
+		let pmo = players[consoleplayer].mo;
+		if (pmo)
+		{
+			// Get read/unread status
+			let pdainv = PDA(pmo.FindInventory(pdacls, true));
+			if (pdainv)
+			{
+				textColor = pdainv.isRead ? parentMenu.pdaListReadColor : parentMenu.pdaListUnreadColor;
+			}
+			Super.Drawer();
+		}
+		else
+		{
+			Console.Printf("PDAOwnedPDALabel can't find Player MO (shouldn't happen)!");
+		}
+	}
+}
+
+//===========================================================================
+//
+// PDAOwnedPDAsList
+// A subclass of PDAClickableList with a special label specific to owned PDAs
+//
+//===========================================================================
+
+class PDAOwnedPDAsList: PDAClickableList
+{
+	override void AddLine(String newItem)
+	{
+		if (!content) return;
+
+		class<Actor> cls = newItem;
+		String newItemTitle = StringTable.Localize(GetDefaultByType((class<Actor>)(cls)).GetTag());
+
+		// Buttons and text have to be separate because
+		// button text is automatically center-aligned >_<
+
+		// Button element
+		let btn = PDAColoredButton(new('PDAColoredButton').Init
+		(
+			(0, currentLineYPos),
+			(box.size.X - SCROLLBAR_WIDTH, parentMenu.GetFontHeight()),
+			cmdHandler: parentMenu.handler,
+			command: cmdName .. ":" .. newItem
+		));
+		btn.SetTexture
+		(
+			"TNT1A0",
+			"TNT1A0",
+			"TNT1A0",
+			""
+		);
+		btn.fillColor = parentMenu.UIColor;
+		btn.Pack(content);
+
+		// Text element
+		let txt = new('PDAOwnedPDALabel').Init
+		(
+			(0, currentLineYPos),
+			(0, 0),
+			text: newItemTitle,
+			fnt: parentMenu.fnt,
+			wrap: false,
+			autoSize: true,
+			textColor: parentMenu.fntColor
+		);
+		class<PDA> pdacls = newItem;
+		PDAOwnedPDALabel(txt).pdacls = pdacls;
+		PDAOwnedPDALabel(txt).parentMenu = parentMenu;
 		txt.Pack(content);
 
 		// Increase the Y size of the content frame

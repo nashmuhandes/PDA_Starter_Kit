@@ -51,7 +51,7 @@ class PDAMenu : PDAGenericMenu
 	// Widgets
 
 	// PDA list (left)
-	PDAClickableList pdaList;
+	PDAOwnedPDAsList pdaList;
 
 	// PDA content (right)
 	PDAImage pdaContentBackground;
@@ -95,7 +95,7 @@ class PDAMenu : PDAGenericMenu
 		// Create the PDA list
 		let pdaListPos = (117, 84);
 		let pdaListSize = (140, 230);
-		pdaList = PDAClickableList(new('PDAClickableList').Init(pdaListPos, pdaListSize, self, "ActivatePDA"));
+		pdaList = PDAOwnedPDAsList(new('PDAOwnedPDAsList').Init(pdaListPos, pdaListSize, self, "ActivatePDA"));
 
 		// Populate the PDA list
 		PopulatePDAList();
@@ -178,9 +178,7 @@ class PDAMenu : PDAGenericMenu
 		{
 			if (myPDAs[i])
 			{
-				// Set colour depending on read status
-				int clr = PDA(myPDAs[i]).isRead ? pdaListReadColor : pdaListUnreadColor;
-				pdaList.AddLine(myPDAs[i].GetClassName(), clr);
+				pdaList.AddLine(myPDAs[i].GetClassName());
 			}
 		}
 	}
