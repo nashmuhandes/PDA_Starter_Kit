@@ -73,7 +73,7 @@ class PDAMenuHandler : PDAHandler
 				let pdaReader = menu.pmo.FindInventory("PDAReader", true);
 				if (pdaReader && menu.pmo == players[consoleplayer].mo)
 				{
-					pdaReader.A_PlaySound(snd, CHAN_VOICE | CHAN_UI, snd_menuvolume, false, ATTN_NONE);
+					pdaReader.A_StartSound(snd, CHAN_VOICE, CHANF_UI, snd_menuvolume, ATTN_NONE);
 				}
 			}
 			else
