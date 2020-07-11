@@ -50,6 +50,13 @@ class PDAMenuHandler : PDAHandler
 
 		if ((strings[0] ~== "ActivatePDA"))
 		{
+			// mark as read
+			let pda = PDA(menu.pmo.FindInventory(strings[1], true));
+			if (pda)
+			{
+				EventHandler.SendNetworkEvent("EV_MarkPDARead:" .. strings[1]);
+			}
+
 			class<PDA> cls = strings[1];
 			String txt = GetDefaultByType((class<PDA>)(cls)).pdaText;
 			String pdaText = StringTable.Localize(txt);

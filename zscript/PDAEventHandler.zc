@@ -34,19 +34,29 @@ class PDAEventHandler : EventHandler
 {
 	override void NetworkProcess(ConsoleEvent e)
 	{
+		PlayerPawn pmo = players[e.Player].mo;
+		if (!pmo) return;
+
 		// Handle stopping currently-playing PDA sounds
 		if (e.Name == 'EV_StopPDASound')
 		{
-			PlayerPawn pmo = players[e.Player].mo;
-
-			if (pmo)
+			let pdaReader = pmo.FindInventory("PDAReader", true);
+			if (pdaReader && pmo == players[consoleplayer].mo)
 			{
-				let pdaReader = pmo.FindInventory("PDAReader", true);
-				if (pdaReader && pmo == players[consoleplayer].mo)
-				{
-					pdaReader.A_StopSound(CHAN_VOICE);
-				}
+				pdaReader.A_StopSound(CHAN_VOICE);
+			}
+		}
 
+		// Mark PDA as read
+		Array<String> strings;
+		strings.Clear();
+		e.Name.Split(strings, ":");
+		if ((strings[0] ~== "EV_MarkPDARead"))
+		{
+			let pda = PDA(pmo.FindInventory(strings[1], true));
+			if (pda)
+			{
+				pda.isRead = true;
 			}
 		}
 	}

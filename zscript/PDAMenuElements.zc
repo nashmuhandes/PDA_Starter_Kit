@@ -226,7 +226,7 @@ class PDAClickableList : PDAScrollableFrame
 	//
 	//===========================================================================
 
-	void AddLine(String newItem)
+	void AddLine(String newItem, int clr)
 	{
 		if (!content) return;
 
@@ -263,7 +263,7 @@ class PDAClickableList : PDAScrollableFrame
 			fnt: parentMenu.fnt,
 			wrap: false,
 			autoSize: true,
-			textColor: parentMenu.fntColor
+			textColor: clr
 		);
 		txt.Pack(content);
 

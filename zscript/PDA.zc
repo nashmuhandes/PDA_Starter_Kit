@@ -42,6 +42,8 @@ class PDA : Inventory
 	Sound pdaAudio;
 	property Audio: pdaAudio;
 
+	bool isRead;
+
 	//===========================================================================
 	//
 	//

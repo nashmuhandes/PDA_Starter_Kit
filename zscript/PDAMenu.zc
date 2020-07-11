@@ -44,6 +44,8 @@ class PDAMenu : PDAGenericMenu
 
 	// Colors
 	int fntColor;
+	int pdaListUnreadColor;
+	int pdaListReadColor;
 	Color UIColor;
 
 	// Widgets
@@ -77,6 +79,8 @@ class PDAMenu : PDAGenericMenu
 		// Customize UI colours
 		UIColor = Color(118, 118, 206);
 		fntColor = Font.CR_LightBlue;
+		pdaListUnreadColor = Font.CR_LightBlue;
+		pdaListReadColor =  Font.CR_Black;
 
 		// Assign the PDAMenuHandler
         handler = new('PDAMenuHandler');
@@ -174,7 +178,9 @@ class PDAMenu : PDAGenericMenu
 		{
 			if (myPDAs[i])
 			{
-				pdaList.AddLine(myPDAs[i].GetClassName());
+				// Set colour depending on read status
+				int clr = PDA(myPDAs[i]).isRead ? pdaListReadColor : pdaListUnreadColor;
+				pdaList.AddLine(myPDAs[i].GetClassName(), clr);
 			}
 		}
 	}
