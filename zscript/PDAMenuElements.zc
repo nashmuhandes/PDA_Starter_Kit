@@ -390,10 +390,15 @@ class PDAContentText : PDAScrollableFrame
 	{
 		let f = PDAContentText(Super.Init(pos, size, mnu));
 
+		// Take scrollbar size into account (and add some padding)
+		// (I hope the width of a "0" is wide enough LOL)
+		Vector2 sizeAdjusted = size;
+		sizeAdjusted.X -= (PDAScrollableFrame.SCROLLBAR_WIDTH + parentMenu.fnt.GetCharWidth("0"));
+
 		text = new('PDALabel').Init
 		(
 			(0, 0),
-			size,
+			sizeAdjusted,
 			text: "",
 			fnt: parentMenu.fnt,
 			wrap: true,
