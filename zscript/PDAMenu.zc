@@ -122,6 +122,29 @@ class PDAMenu : PDAGenericMenu
 		Super.Ticker();
 	}
 
+	override bool MenuEvent(int mkey, bool fromcontroller)
+	{
+		if (pdaContentText)
+		{
+			int scrollAmount = 5;
+
+			switch (mkey)
+			{
+				// scroll content text
+				case MKEY_PageUp:
+					pdaContentText.ScrollUp(scrollAmount);
+					break;
+				case MKEY_PageDown:
+					pdaContentText.ScrollDown(scrollAmount);
+					break;
+				default:
+					break;
+			}
+		}
+
+		return Super.MenuEvent(mkey, fromcontroller);
+	}
+
 	override void OnDestroy(void)
 	{
 		PlayerInfo p = players[consoleplayer];

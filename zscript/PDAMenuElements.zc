@@ -104,16 +104,13 @@ class PDAScrollableFrame : PDAFrame
 		{
 			// Mousewheel scrolling
 			int scrollAmount = 5;
-			if (ev.Type == UIEvent.Type_WheelUp && content.box.pos.Y < 0)
+			if (ev.Type == UIEvent.Type_WheelUp)
 			{
-				content.box.pos.Y += (parentMenu.GetFontHeight() * scrollAmount);
-				ClampContentPos();
-
+				ScrollUp(scrollAmount);
 			}
-			else if (ev.Type == UIEvent.Type_WheelDown && content.box.pos.Y > GetLowestPos())
+			else if (ev.Type == UIEvent.Type_WheelDown)
 			{
-				content.box.pos.Y -= (parentMenu.GetFontHeight() * scrollAmount);
-				ClampContentPos();
+				ScrollDown(scrollAmount);
 			}
 		}
 	}
@@ -143,6 +140,34 @@ class PDAScrollableFrame : PDAFrame
 		{
 			scrollbar.disabled = true;
 			scrollbar.hidden = true;
+		}
+	}
+
+	//===========================================================================
+	//
+	//
+	//
+	//===========================================================================
+
+	void Scroll(int scrollAmount)
+	{
+		content.box.pos.Y += (parentMenu.GetFontHeight() * scrollAmount);
+		ClampContentPos();
+	}
+
+	void ScrollUp(int scrollAmount = 5)
+	{
+		if (content.box.pos.Y < 0)
+		{
+			Scroll(scrollAmount);
+		}
+	}
+
+	void ScrollDown(int scrollAmount = 5)
+	{
+		if (content.box.pos.Y > GetLowestPos())
+		{
+			Scroll(-scrollAmount);
 		}
 	}
 
@@ -207,6 +232,28 @@ class PDAClickableList : PDAScrollableFrame
 		let f = PDAClickableList(Super.Init(pos, size, mnu));
 		cmdName = cmd;
 		return f;
+	}
+
+	//===========================================================================
+	//
+	//
+	//
+	//===========================================================================
+
+	void SelectPreviousItem(void)
+	{
+		if (currentSelection > 0)
+		{
+			currentSelection--;
+		}
+	}
+
+	void SelectNextItem(void)
+	{
+		if (currentSelection < GetMaxLines())
+		{
+			currentSelection++;
+		}
 	}
 
 	//===========================================================================
