@@ -96,15 +96,18 @@ class PDAMenu : PDAGenericMenu
 		// Populate the PDA list
 		PopulatePDAList();
 
-		// Always highlight the first entry when the menu spawns
-		pdaList.UpdateSelection();
-
 		// Create the content background frame
 		pdaContentBackground = new('PDAImage').Init(pdaContentPos, pdaContentSize, "", PDAImage.AlignType_Center);
 		pdaContentBackground.Pack(mainFrame);
 
 		// Create the content frame
 		pdaContentText = PDAContentText(new('PDAContentText').Init(pdaContentPos, pdaContentSize, self));
+
+		// Always highlight the first entry when the menu spawns
+		if (pdaList)
+		{
+			pdaList.UpdateSelection();
+		}
 
 		// Play menu open sound
 		Menu.MenuSound("PDA/Interface/Menu_Open");
@@ -226,6 +229,8 @@ class PDAMenu : PDAGenericMenu
 
 	void PopulatePDAList(void)
 	{
+		if (!pdaList) return;
+
 		// Build array of PDAs
 		Array<Inventory> myPDAs;
 		myPDAs.Clear();
