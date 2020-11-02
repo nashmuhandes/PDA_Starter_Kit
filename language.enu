@@ -1,8 +1,20 @@
 [enu default]
 
+//===========================================================================
+//
+//
+//
+//===========================================================================
+
 PDA_READER = "PDA Reader";
 PDA_PICKUP = "New PDA Entry: %s";
 PDA_DEFAULT_TITLE = "[Untitled PDA]";
+
+//===========================================================================
+//
+// TestPDA
+//
+//===========================================================================
 
 PDA_TestPDA_Title = "Jonny's Code";
 PDA_TestPDA_Text =
@@ -25,6 +37,12 @@ PDA_TestPDA_Text =
 	"Nate: Yeah. Strung him upside down from a tree to get the code out of him. I heard him yell 369."
 	"\n\n"
 	"Samson: Heh, too bad there's nothing left to take.";
+
+//===========================================================================
+//
+// TestPoem
+//
+//===========================================================================
 
 PDA_TestPoem_Title = "The Convert...";
 PDA_TestPoem_Text =
@@ -56,7 +74,28 @@ PDA_TestPoem_Text =
 	"\n\n"
 	"If you count both hands and both feet, all lashes and piercings and the forsaken cry, the number is higher and lower than anyone's.";
 
+//===========================================================================
+//
+// TestNote
+//
+//===========================================================================
+
 PDA_TestNote_Title = "Mysterious Note";
 PDA_TestNote_Text = "There was a hole here. It's gone now.";
 
+//===========================================================================
+//
+// TestStrangeMap
+//
+//===========================================================================
+
 PDA_TestStrangeMap_Title = "Strange Map";
+
+//===========================================================================
+//
+// TestZSPDA
+//
+//===========================================================================
+
+PDA_TestZSPDA_Title = "ZScript Note";
+PDA_TestZSPDA_Text = "This is a PDA note defined in ZScript.";

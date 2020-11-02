@@ -1,6 +1,7 @@
 DoomEdNums
 {
 	20000 = "PDAReader"
+	20005 = "TestZSPDA"
 }
 
 GameInfo

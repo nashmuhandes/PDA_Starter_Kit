@@ -1,0 +1,21 @@
+//===========================================================================
+//
+// Example PDAs in ZScript format.
+//
+//===========================================================================
+
+class TestZSPDA : PDA
+{
+	Default
+	{
+		Tag "$PDA_TestZSPDA_Title";
+		PDA.Text "$PDA_TestZSPDA_Text";
+	}
+
+	States
+	{
+		Spawn:
+			NOTE A -1;
+			Stop;
+	}
+}
