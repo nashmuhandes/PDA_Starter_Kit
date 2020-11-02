@@ -33,10 +33,10 @@
 
 class PDAMenuHandler : PDAHandler
 {
-    PDAMenu menu;
+	PDAMenu menu;
 
-    override void ButtonClickCommand(PDAButton caller, String command)
-    {
+	override void ButtonClickCommand(PDAButton caller, String command)
+	{
 		if (!menu) return;
 		if (!menu.pdaContentText || !menu.pdaContentBackground) return;
 

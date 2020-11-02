@@ -35,7 +35,7 @@
 
 class PDAMenu : PDAGenericMenu
 {
-    PDAMenuHandler handler;
+	PDAMenuHandler handler;
 	Font fnt;
 	PlayerPawn pmo;
 
@@ -74,21 +74,21 @@ class PDAMenu : PDAGenericMenu
 	//
 	//===========================================================================
 
-    override void Init(Menu parent)
-    {
-        Super.Init(parent);
+	override void Init(Menu parent)
+	{
+		Super.Init(parent);
 
 		pmo = players[consoleplayer].mo;
 
 		PDAConfig();
 
 		// Assign the PDAMenuHandler
-        handler = new('PDAMenuHandler');
-        handler.menu = self;
+		handler = new('PDAMenuHandler');
+		handler.menu = self;
 
 		// Create the PDA background
 		let background = new('PDAImage').Init(backgroundPos, backgroundSize, backgroundPic, PDAImage.AlignType_TopLeft);
-        background.Pack(mainFrame);
+		background.Pack(mainFrame);
 
 		// Create the PDA list
 		pdaList = PDAOwnedPDAsList(new('PDAOwnedPDAsList').Init(pdaListPos, pdaListSize, self, "ActivatePDA"));
