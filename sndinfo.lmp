@@ -1,1 +1,18 @@
+//===========================================================================
+//
+// PDA INTERFACE SOUNDS
+//
+//===========================================================================
+
+PDA/Interface/Menu_Open "sounds/pda_open.ogg"
+PDA/Interface/Menu_Close "sounds/pda_close.ogg"
+PDA/Interface/Hover "sounds/pda_hover.ogg"
+PDA/Interface/Activate "sounds/pda_activate.ogg"
+
+//===========================================================================
+//
+// AUDIO LOGS
+//
+//===========================================================================
+
 PDA/TestPDAAudio "sounds/test pda audio.ogg"

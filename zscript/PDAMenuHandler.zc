@@ -50,7 +50,10 @@ class PDAMenuHandler : PDAHandler
 
 		if ((strings[0] ~== "ActivatePDA"))
 		{
-			// mark as read
+			// Play activate sound
+			Menu.MenuSound("PDA/Interface/Activate");
+
+			// Mark as read
 			let pda = PDA(menu.pmo.FindInventory(strings[1], true));
 			if (pda)
 			{
@@ -87,5 +90,14 @@ class PDAMenuHandler : PDAHandler
 				EventHandler.SendNetworkEvent("EV_StopPDASound");
 			}
 		}
+	}
+
+	override void ElementHoverChanged(PDAElement caller, string command, bool unhovered)
+	{
+		if (!unhovered && !caller.disabled)
+		{
+			Menu.MenuSound("PDA/Interface/Hover");
+		}
+		Super.ElementHoverChanged(caller, command, unhovered);
 	}
 }

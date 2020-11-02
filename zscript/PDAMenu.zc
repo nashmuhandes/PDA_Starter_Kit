@@ -112,6 +112,9 @@ class PDAMenu : PDAGenericMenu
 
 		// Create the content frame
 		pdaContentText = PDAContentText(new('PDAContentText').Init(pdaContentPos, pdaContentSize, self));
+
+		// Play menu open sound
+		Menu.MenuSound("PDA/Interface/Menu_Open");
 	}
 
 	override void Ticker(void)
@@ -156,6 +159,12 @@ class PDAMenu : PDAGenericMenu
 				case MKEY_PageDown:
 					pdaContentText.ScrollDown(scrollAmount);
 					break;
+
+				// Close the menu and play the close menu sound
+				case MKEY_Back:
+					Menu.MenuSound("PDA/Interface/Menu_Close");
+					Close();
+					return true;
 
 				default:
 					break;
