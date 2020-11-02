@@ -45,6 +45,16 @@ class PDAMenu : PDAGenericMenu
 	int pdaListReadColor;
 	Color UIColor;
 
+	String backgroundPic;
+
+	// Sizes and positions
+	Vector2 backgroundPos;
+	Vector2 backgroundSize;
+	Vector2 pdaListPos;
+	Vector2 pdaListSize;
+	Vector2 pdaContentPos;
+	Vector2 pdaContentSize;
+
 	// Widgets
 
 	// PDA list (left)
@@ -53,6 +63,9 @@ class PDAMenu : PDAGenericMenu
 	// PDA content (right)
 	PDAImage pdaContentBackground;
 	PDAContentText pdaContentText;
+
+	// How many number of lines to scroll with the mousewheel
+	int scrollAmount;
 
 	//===========================================================================
 	//
@@ -74,14 +87,10 @@ class PDAMenu : PDAGenericMenu
         handler.menu = self;
 
 		// Create the PDA background
-		let backgroundPos = (0, 0);
-		let backgroundSize = (640, 400);
-        let background = new('PDAImage').Init(backgroundPos, backgroundSize, "graphics/PDA/PDA Background.png", PDAImage.AlignType_TopLeft);
+		let background = new('PDAImage').Init(backgroundPos, backgroundSize, backgroundPic, PDAImage.AlignType_TopLeft);
         background.Pack(mainFrame);
 
 		// Create the PDA list
-		let pdaListPos = (117, 84);
-		let pdaListSize = (140, 230);
 		pdaList = PDAOwnedPDAsList(new('PDAOwnedPDAsList').Init(pdaListPos, pdaListSize, self, "ActivatePDA"));
 
 		// Populate the PDA list
@@ -91,9 +100,6 @@ class PDAMenu : PDAGenericMenu
 		pdaList.UpdateSelection();
 
 		// Create the content background frame
-		let pdaContentPos = (261, 84);
-		let pdaContentSize = (262, 230);
-
 		pdaContentBackground = new('PDAImage').Init(pdaContentPos, pdaContentSize, "", PDAImage.AlignType_Center);
 		pdaContentBackground.Pack(mainFrame);
 
@@ -119,8 +125,6 @@ class PDAMenu : PDAGenericMenu
 	{
 		if (pdaContentText)
 		{
-			int scrollAmount = 5;
-
 			switch (mkey)
 			{
 				// PDA selection
@@ -184,16 +188,33 @@ class PDAMenu : PDAGenericMenu
 	//
 	//===========================================================================
 
-	void DoPDAConfig(int w, int h, String fntName, Color uiClr, int fntClr, int unreadClr, int readClr)
+	void DoPDAConfig(Vector2 baseRes, String fntName,
+		Vector3 uiClr, int fntClr, int unreadClr, int readClr,
+		String bgPic, Vector2 bgPos, Vector2 bgSize,
+		Vector2 listPos, Vector2 listSize,
+		Vector2 ctPos, Vector2 ctSize,
+		int scrAmount)
 	{
-		SetBaseResolution((w, h));
+		SetBaseResolution((int(baseRes.X), int(baseRes.Y)));
 
 		fnt = Font.GetFont(fntName);
 
-		UIColor = uiClr;
+		UIColor = Color(int(uiClr.X), int(uiClr.Y), int(uiClr.Z));
 		fntColor = fntClr;
 		pdaListUnreadColor = unreadClr;
 		pdaListReadColor = readClr;
+
+		backgroundPic = bgPic;
+		backgroundPos = bgPos;
+		backgroundSize = bgSize;
+
+		pdaListPos = listPos;
+		pdaListSize = listSize;
+
+		pdaContentPos = ctPos;
+		pdaContentSize = ctSize;
+
+		scrollAmount = scrAmount;
 	}
 
 	//===========================================================================

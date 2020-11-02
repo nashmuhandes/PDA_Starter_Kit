@@ -8,14 +8,13 @@ extend class PDAMenu
 		DoPDAConfig
 		(
 			// Set PDA menu resolution
-			BASE_RES_WIDTH,
-			BASE_RES_HEIGHT,
+			(BASE_RES_WIDTH, BASE_RES_HEIGHT),
 
 			// Set PDA menu font
 			"PDAFONT",
 
-			// Overall UI colour
-			Color(118, 118, 206),
+			// Overall UI colour theme (in RGB)
+			(118, 118, 206),
 
 			// Font colour
 			Font.CR_LightBlue,
@@ -24,7 +23,31 @@ extend class PDAMenu
 			Font.CR_LightBlue,
 
 			// Read PDA color
-			Font.CR_Black
+			Font.CR_Black,
+
+			// Background image
+			"graphics/PDA/PDA Background.png",
+
+			// Background image position
+			(0, 0),
+
+			// Background image size
+			(640, 400),
+
+			// PDA list window position (the list of PDAs you own)
+			(117, 84),
+
+			// PDA list window size
+			(140, 230),
+
+			// Content window position
+			(261, 84),
+
+			// Content window size
+			(262, 230),
+
+			// Number of lines to scroll with the mousewheel
+			5
 		);
 	}
 }
