@@ -374,7 +374,7 @@ class PDAClickableList : PDAScrollableFrame
 
 	int GetTopMostSelection(void)
 	{
-		return abs(content.box.pos.Y / parentMenu.GetFontHeight());
+		return abs(int(content.box.pos.Y) / parentMenu.GetFontHeight());
 	}
 
 	void UpdateSelection(void)
