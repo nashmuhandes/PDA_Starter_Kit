@@ -221,6 +221,10 @@ class PDAClickableList : PDAScrollableFrame
 	// Increases every time a new item is added to the list
 	int currentLineYPos;
 
+	// Keep track of what is highlighted
+	int currentSelection;
+	Array<PDAOwnedPDAButton> items;
+
 	//===========================================================================
 	//
 	//
@@ -234,25 +238,77 @@ class PDAClickableList : PDAScrollableFrame
 		return f;
 	}
 
+	override void OnUIEvent(PDAUiEvent ev)
+	{
+		Super.OnUIEvent(ev);
+
+		// Let the mouse overwrite the selection
+		if (ev.Type == UIEvent.Type_MouseMove && IsEnabled() && BoxToScreen().PointCollides((mouseX, mouseY)))
+		{
+			currentSelection = -1;
+			UpdateSelection();
+		}
+	}
+
 	//===========================================================================
 	//
 	//
 	//
 	//===========================================================================
 
+	int GetBottomMostSelection(void)
+	{
+		return GetMaxShowableLines() - 1;
+	}
+
+	int GetTopMostSelection(void)
+	{
+		return abs(content.box.pos.Y / parentMenu.GetFontHeight());
+	}
+
+	void UpdateSelection(void)
+	{
+		for (int i = 0; i < items.Size(); i++)
+		{
+			if (items[i])
+			{
+				items[i].highlighted = false;
+
+				if (currentSelection >= 0)
+				{
+					items[currentSelection].highlighted = true;
+				}
+			}
+		}
+	}
+
 	void SelectPreviousItem(void)
 	{
-		if (currentSelection > 0)
+		int t = 0;
+		if (currentSelection > t)
 		{
 			currentSelection--;
+			UpdateSelection();
+		}
+
+		if (currentSelection < GetTopMostSelection())
+		{
+			ScrollUp(1);
 		}
 	}
 
 	void SelectNextItem(void)
 	{
-		if (currentSelection < GetMaxLines())
+		int t = (GetMaxLines() - 1);
+		if (currentSelection < t)
 		{
 			currentSelection++;
+			UpdateSelection();
+		}
+
+		if (currentSelection > GetBottomMostSelection())
+		{
+			ScrollDown(1);
 		}
 	}
 
@@ -284,7 +340,7 @@ class PDAClickableList : PDAScrollableFrame
 		// button text is automatically center-aligned >_<
 
 		// Button element
-		let btn = PDAColoredButton(new('PDAColoredButton').Init
+		let btn = PDAOwnedPDAButton(new('PDAOwnedPDAButton').Init
 		(
 			(0, currentLineYPos),
 			(box.size.X - SCROLLBAR_WIDTH, parentMenu.GetFontHeight()),
@@ -300,6 +356,7 @@ class PDAClickableList : PDAScrollableFrame
 		);
 		btn.fillColor = parentMenu.UIColor;
 		btn.Pack(content);
+		items.Push(btn);
 
 		// Text element
 		let txt = new('PDALabel').Init
@@ -375,7 +432,7 @@ class PDAOwnedPDAsList: PDAClickableList
 		// button text is automatically center-aligned >_<
 
 		// Button element
-		let btn = PDAColoredButton(new('PDAColoredButton').Init
+		let btn = PDAOwnedPDAButton(new('PDAOwnedPDAButton').Init
 		(
 			(0, currentLineYPos),
 			(box.size.X - SCROLLBAR_WIDTH, parentMenu.GetFontHeight()),
@@ -391,6 +448,7 @@ class PDAOwnedPDAsList: PDAClickableList
 		);
 		btn.fillColor = parentMenu.UIColor;
 		btn.Pack(content);
+		items.Push(btn);
 
 		// Text element
 		let txt = new('PDAOwnedPDALabel').Init
@@ -413,6 +471,27 @@ class PDAOwnedPDAsList: PDAClickableList
 
 		// Increase Y position of the next item to add
 		currentLineYPos += parentMenu.GetFontHeight();
+	}
+}
+
+//===========================================================================
+//
+// PDAOwnedPDAButton
+//
+//===========================================================================
+
+class PDAOwnedPDAButton : PDAColoredButton
+{
+	bool highlighted;
+
+	override void Drawer(void)
+	{
+		Super.Drawer();
+
+		if (highlighted)
+		{
+			Fill((0, 0), box.size, fillColor, 1.0);
+		}
 	}
 }
 

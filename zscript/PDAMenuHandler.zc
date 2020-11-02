@@ -65,6 +65,11 @@ class PDAMenuHandler : PDAHandler
 			menu.pdaContentBackground.image = GetDefaultByType((class<PDA>)(cls)).pdaImage;
 			menu.pdaContentText.SetText(pdaText);
 
+			// Update current selection
+			int index = menu.pdaList.items.Find(PDAColoredButton(caller));
+			menu.pdaList.currentSelection = index;
+			menu.pdaList.UpdateSelection();
+
 			// Play sound if available
 			Sound snd = GetDefaultByType((class<PDA>)(cls)).pdaAudio;
 			if (snd)

@@ -100,6 +100,9 @@ class PDAMenu : PDAGenericMenu
 		// Populate the PDA list
 		PopulatePDAList();
 
+		// Always highlight the first entry when the menu spawns
+		pdaList.UpdateSelection();
+
 		// Create the content background frame
 		let pdaContentPos = (261, 84);
 		let pdaContentSize = (262, 230);
@@ -130,13 +133,30 @@ class PDAMenu : PDAGenericMenu
 
 			switch (mkey)
 			{
-				// scroll content text
+				// PDA selection
+				case MKEY_Up:
+					pdaList.SelectPreviousItem();
+					break;
+				case MKEY_Down:
+					pdaList.SelectNextItem();
+					break;
+
+				// Read a PDA
+				case MKEY_Enter:
+					if (pdaList.currentSelection >= 0)
+					{
+						handler.ButtonClickCommand(pdaList.items[pdaList.currentSelection], pdaList.items[pdaList.currentSelection].command);
+					}
+					break;
+
+				// Scroll content text
 				case MKEY_PageUp:
 					pdaContentText.ScrollUp(scrollAmount);
 					break;
 				case MKEY_PageDown:
 					pdaContentText.ScrollDown(scrollAmount);
 					break;
+
 				default:
 					break;
 			}
