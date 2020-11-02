@@ -7,6 +7,7 @@ version "4.4.0"
 #include "zscript/PDAEventHandler.zc"
 #include "zscript/PDAReader.zc"
 #include "zscript/PDA.zc"
+#include "zscript/PDADummyPDA.zc"
 
 // Example PDA content (feel free to edit/remove)
 #include "PDAs/PDAs.zc"

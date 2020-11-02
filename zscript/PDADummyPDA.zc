@@ -1,0 +1,55 @@
+class PDADummyPDA : PDA
+{
+}
+
+class PDADummyPDA0 : PDADummyPDA {}
+class PDADummyPDA1 : PDADummyPDA {}
+class PDADummyPDA2 : PDADummyPDA {}
+class PDADummyPDA3 : PDADummyPDA {}
+class PDADummyPDA4 : PDADummyPDA {}
+class PDADummyPDA5 : PDADummyPDA {}
+class PDADummyPDA6 : PDADummyPDA {}
+class PDADummyPDA7 : PDADummyPDA {}
+class PDADummyPDA8 : PDADummyPDA {}
+class PDADummyPDA9 : PDADummyPDA {}
+class PDADummyPDA10 : PDADummyPDA {}
+class PDADummyPDA11 : PDADummyPDA {}
+class PDADummyPDA12 : PDADummyPDA {}
+class PDADummyPDA13 : PDADummyPDA {}
+class PDADummyPDA14 : PDADummyPDA {}
+class PDADummyPDA15 : PDADummyPDA {}
+class PDADummyPDA16 : PDADummyPDA {}
+class PDADummyPDA17 : PDADummyPDA {}
+class PDADummyPDA18 : PDADummyPDA {}
+class PDADummyPDA19 : PDADummyPDA {}
+class PDADummyPDA20 : PDADummyPDA {}
+class PDADummyPDA21 : PDADummyPDA {}
+class PDADummyPDA22 : PDADummyPDA {}
+class PDADummyPDA23 : PDADummyPDA {}
+class PDADummyPDA24 : PDADummyPDA {}
+class PDADummyPDA25 : PDADummyPDA {}
+class PDADummyPDA26 : PDADummyPDA {}
+class PDADummyPDA27 : PDADummyPDA {}
+class PDADummyPDA28 : PDADummyPDA {}
+class PDADummyPDA29 : PDADummyPDA {}
+class PDADummyPDA30 : PDADummyPDA {}
+class PDADummyPDA31 : PDADummyPDA {}
+class PDADummyPDA32 : PDADummyPDA {}
+class PDADummyPDA33 : PDADummyPDA {}
+class PDADummyPDA34 : PDADummyPDA {}
+class PDADummyPDA35 : PDADummyPDA {}
+class PDADummyPDA36 : PDADummyPDA {}
+class PDADummyPDA37 : PDADummyPDA {}
+class PDADummyPDA38 : PDADummyPDA {}
+class PDADummyPDA39 : PDADummyPDA {}
+class PDADummyPDA40 : PDADummyPDA {}
+class PDADummyPDA41 : PDADummyPDA {}
+class PDADummyPDA42 : PDADummyPDA {}
+class PDADummyPDA43 : PDADummyPDA {}
+class PDADummyPDA44 : PDADummyPDA {}
+class PDADummyPDA45 : PDADummyPDA {}
+class PDADummyPDA46 : PDADummyPDA {}
+class PDADummyPDA47 : PDADummyPDA {}
+class PDADummyPDA48 : PDADummyPDA {}
+class PDADummyPDA49 : PDADummyPDA {}
+class PDADummyPDA50 : PDADummyPDA {}
