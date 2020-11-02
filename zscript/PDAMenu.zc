@@ -182,7 +182,7 @@ class PDAMenu : PDAGenericMenu
 
 				// Read a PDA
 				case MKEY_Enter:
-					if (pdaList.currentSelection >= 0)
+					if (pdaList.items.Size() > 0 && pdaList.currentSelection >= 0)
 					{
 						handler.ButtonClickCommand(pdaList.items[pdaList.currentSelection], pdaList.items[pdaList.currentSelection].command);
 					}
