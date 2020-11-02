@@ -35,9 +35,6 @@
 
 class PDAMenu : PDAGenericMenu
 {
-	const BASE_RES_WIDTH = 640;
-	const BASE_RES_HEIGHT = 400;
-
     PDAMenuHandler handler;
 	Font fnt;
 	PlayerPawn pmo;
@@ -70,17 +67,7 @@ class PDAMenu : PDAGenericMenu
 
 		pmo = players[consoleplayer].mo;
 
-		// Set PDA menu resolution
-        SetBaseResolution((BASE_RES_WIDTH, BASE_RES_HEIGHT));
-
-		// Set PDA menu font
-        fnt = Font.GetFont("PDAFONT");
-
-		// Customize UI colours
-		UIColor = Color(118, 118, 206);
-		fntColor = Font.CR_LightBlue;
-		pdaListUnreadColor = Font.CR_LightBlue;
-		pdaListReadColor =  Font.CR_Black;
+		PDAConfig();
 
 		// Assign the PDAMenuHandler
         handler = new('PDAMenuHandler');
@@ -188,6 +175,25 @@ class PDAMenu : PDAGenericMenu
 		}
 
 		Super.OnDestroy();
+	}
+
+	//===========================================================================
+	//
+	//
+	//
+	//
+	//===========================================================================
+
+	void DoPDAConfig(int w, int h, String fntName, Color uiClr, int fntClr, int unreadClr, int readClr)
+	{
+		SetBaseResolution((w, h));
+
+		fnt = Font.GetFont(fntName);
+
+		UIColor = uiClr;
+		fntColor = fntClr;
+		pdaListUnreadColor = unreadClr;
+		pdaListReadColor = readClr;
 	}
 
 	//===========================================================================
