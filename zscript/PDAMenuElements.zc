@@ -47,8 +47,8 @@ class PDAScrollableFrame : PDAFrame
 	PDAFrame content;
 
 	const SCROLLBAR_WIDTH = 4;
-	PDAColoredFrame scrollbarTrack;
-	PDAColoredFrame scrollbar;
+	PDAScrollBarTrack scrollbarTrack;
+	PDAScrollBar scrollbar;
 
 	int mouseX;
 	int mouseY;
@@ -71,11 +71,11 @@ class PDAScrollableFrame : PDAFrame
 		content.Pack(f);
 
 		// Create the scrollbar element, Y size also resized dynamically
-		scrollbarTrack = PDAColoredFrame(new('PDAColoredFrame').Init((size.X - SCROLLBAR_WIDTH, 0), (SCROLLBAR_WIDTH, size.Y)));
+		scrollbarTrack = PDAScrollBarTrack(new('PDAScrollBarTrack').Init((size.X - SCROLLBAR_WIDTH, 0), (SCROLLBAR_WIDTH, size.Y), mnu));
 		scrollbarTrack.fillColor = Color(parentMenu.UIColor.R / 2, parentMenu.UIColor.G / 2, parentMenu.UIColor.B / 2);
 		scrollbarTrack.pack(f);
 
-		scrollbar = PDAColoredFrame(new('PDAColoredFrame').Init((size.X - SCROLLBAR_WIDTH, 0), (SCROLLBAR_WIDTH, 0)));
+		scrollbar = PDAScrollBar(new('PDAScrollBar').Init((size.X - SCROLLBAR_WIDTH, 0), (SCROLLBAR_WIDTH, 0)));
 		scrollbar.fillColor = parentMenu.UIColor;
 		scrollbar.pack(f);
 
@@ -204,6 +204,74 @@ class PDAScrollableFrame : PDAFrame
 		else if (content.box.pos.Y < GetLowestPos())
 			content.box.pos.Y = GetLowestPos();
 	}
+}
+
+//===========================================================================
+//
+// PDAScrollBarTrack
+//
+//===========================================================================
+
+class PDAScrollBarTrack : PDAColoredFrame
+{
+	PDAMenu parentMenu;
+	int mouseX;
+	int mouseY;
+
+	PDAScrollBarTrack Init(Vector2 pos, Vector2 size, PDAMenu mnu)
+	{
+		parentMenu = mnu;
+		let f = PDAScrollBarTrack(Super.Init(pos, size));
+		return f;
+	}
+
+	override void OnUIEvent(PDAUiEvent ev)
+	{
+		Super.OnUIEvent(ev);
+
+		if (ev.Type == UIEvent.Type_MouseMove)
+		{
+			mouseX = ev.mouseX;
+			mouseY = ev.mouseY;
+		}
+
+		let v = ScreenToRel((mouseX, mouseY));
+		int yPos = int(v.Y);
+		int yPosMax = int(box.size.Y);
+		int yPosPercent = 100 * yPos / yPosMax;
+		int maxLines = PDAScrollableFrame(master).GetMaxLines();
+		int scrollAmount = maxLines * yPosPercent / 100;
+
+		/*
+		if (IsEnabled() && BoxToScreen().PointCollides((mouseX, mouseY)))
+		{
+			Console.Printf("%d, %d, %d%%, %d, %d", yPos, yPosMax, yPosPercent, maxLines, scrollAmount);
+		}
+		*/
+
+		if (ev.Type == UIEvent.Type_LButtonDown)
+		{
+			if (IsEnabled() && BoxToScreen().PointCollides((mouseX, mouseY)))
+			{
+				PDAScrollableFrame(master).content.box.pos.Y = 0;
+
+				for (int i = 0; i < scrollAmount; i++)
+				{
+					PDAScrollableFrame(master).ScrollDown(1);
+				}
+			}
+		}
+	}
+}
+
+//===========================================================================
+//
+// PDAScrollBar
+//
+//===========================================================================
+
+class PDAScrollBar : PDAColoredFrame
+{
 }
 
 //===========================================================================
