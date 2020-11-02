@@ -88,6 +88,8 @@ class PDAMenu : PDAGenericMenu
 	String backgroundPic;
 
 	// Sizes and positions
+	int baseResWidth;
+	int baseResHeight;
 	Vector2 backgroundPos;
 	Vector2 backgroundSize;
 	Vector2 pdaListPos;
@@ -238,7 +240,9 @@ class PDAMenu : PDAGenericMenu
 		Vector2 ctPos, Vector2 ctSize,
 		int scrAmount)
 	{
-		SetBaseResolution((int(baseRes.X), int(baseRes.Y)));
+		baseResWidth = int(baseRes.X);
+		baseResHeight = int(baseRes.Y);
+		SetBaseResolution((baseResWidth, baseResHeight));
 
 		fnt = Font.GetFont(fntName);
 

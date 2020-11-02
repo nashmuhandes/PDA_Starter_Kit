@@ -66,15 +66,12 @@
 
 extend class PDAMenu
 {
-	const BASE_RES_WIDTH = 640;
-	const BASE_RES_HEIGHT = 400;
-
 	void PDAConfig(void)
 	{
 		DoPDAConfig
 		(
 			// Set PDA menu resolution
-			(BASE_RES_WIDTH, BASE_RES_HEIGHT),
+			(640, 400),
 
 			// Set PDA menu font
 			"PDAFONT",

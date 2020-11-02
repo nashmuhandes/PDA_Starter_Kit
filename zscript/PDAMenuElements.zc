@@ -530,7 +530,7 @@ class PDAOwnedPDALabel : PDALabel
 //
 //===========================================================================
 
-class PDAOwnedPDAsList: PDAClickableList
+class PDAOwnedPDAsList : PDAClickableList
 {
 	override void AddLine(String newItem)
 	{
