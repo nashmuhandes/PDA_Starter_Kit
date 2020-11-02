@@ -242,11 +242,14 @@ class PDAClickableList : PDAScrollableFrame
 	{
 		Super.OnUIEvent(ev);
 
-		// Let the mouse overwrite the selection
-		if (ev.Type == UIEvent.Type_MouseMove && IsEnabled() && BoxToScreen().PointCollides((mouseX, mouseY)))
+		for (int i = 0; i < items.Size(); i++)
 		{
-			currentSelection = -1;
-			UpdateSelection();
+			if (items[i].curButtonState == items[i].ButtonState_Hover)
+			{
+				currentSelection = i;
+				UpdateSelection();
+				break;
+			}
 		}
 	}
 
