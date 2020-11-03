@@ -143,14 +143,13 @@ class PDAScrollableFrame : PDAFrame
 		if (IsEnabled() && BoxToScreen().PointCollides((mouseX, mouseY)))
 		{
 			// Mousewheel scrolling
-			int scrollAmount = 5;
 			if (ev.Type == UIEvent.Type_WheelUp)
 			{
-				ScrollUp(scrollAmount);
+				ScrollUp(parentMenu.mouseScrollAmount);
 			}
 			else if (ev.Type == UIEvent.Type_WheelDown)
 			{
-				ScrollDown(scrollAmount);
+				ScrollDown(parentMenu.mouseScrollAmount);
 			}
 		}
 	}

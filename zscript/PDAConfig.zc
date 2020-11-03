@@ -110,7 +110,10 @@ extend class PDAMenu
 			(262, 230),
 
 			// Number of lines to scroll with the mousewheel
-			5
+			5,
+
+			// Number of lines to scroll with the keyboard/gamepad
+			3
 		);
 	}
 }

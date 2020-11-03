@@ -107,7 +107,10 @@ class PDAMenu : PDAGenericMenu
 	PDAContentText pdaContentText;
 
 	// How many number of lines to scroll with the mousewheel
-	int scrollAmount;
+	int mouseScrollAmount;
+
+	// How many number of lines to scroll with the keyboard/gamepad
+	int keyScrollAmount;
 
 	//===========================================================================
 	//
@@ -190,10 +193,10 @@ class PDAMenu : PDAGenericMenu
 
 				// Scroll content text
 				case MKEY_PageUp:
-					pdaContentText.ScrollUp(scrollAmount);
+					pdaContentText.ScrollUp(keyScrollAmount);
 					break;
 				case MKEY_PageDown:
-					pdaContentText.ScrollDown(scrollAmount);
+					pdaContentText.ScrollDown(keyScrollAmount);
 					break;
 
 				// Close the menu and play the close menu sound
@@ -238,7 +241,7 @@ class PDAMenu : PDAGenericMenu
 		String bgPic, Vector2 bgPos, Vector2 bgSize,
 		Vector2 listPos, Vector2 listSize,
 		Vector2 ctPos, Vector2 ctSize,
-		int scrAmount)
+		int mScrAmount, int kScrAmount)
 	{
 		baseResWidth = int(baseRes.X);
 		baseResHeight = int(baseRes.Y);
@@ -261,7 +264,8 @@ class PDAMenu : PDAGenericMenu
 		pdaContentPos = ctPos;
 		pdaContentSize = ctSize;
 
-		scrollAmount = scrAmount;
+		mouseScrollAmount = mScrAmount;
+		keyScrollAmount = kScrAmount;
 	}
 
 	//===========================================================================
