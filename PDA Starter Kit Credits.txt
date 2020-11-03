@@ -9,3 +9,5 @@ Copyright © 2019 by Melody S. Gee.
 Originally published in Poem-a-Day on September 5, 2019, by the Academy of American Poets.
 
 UI sounds by Circlerun - https://opengameart.org/content/hi-tech-button-sound-pack-i-non-themed
+
+pdafont.fon2 based on Liberation Mono by Red Hat (see SIL Open Font License.txt)
