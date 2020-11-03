@@ -10,6 +10,7 @@ PDA_READER = "PDA Reader";
 PDA_PICKUP = "New PDA Entry: %s";
 PDA_DEFAULT_TITLE = "[Untitled PDA]";
 PDA_STARTER_KIT_VERSION = "v1.0";
+PDA_EMPTY = "-EMPTY-";
 
 //===========================================================================
 //

@@ -331,6 +331,9 @@ class PDAClickableList : PDAScrollableFrame
 	int currentSelection;
 	Array<PDAOwnedPDAButton> items;
 
+	// Empty text
+	PDALabel emptyLabel;
+
 	//===========================================================================
 	//
 	//
@@ -341,7 +344,39 @@ class PDAClickableList : PDAScrollableFrame
 	{
 		cmdName = cmd;
 		let f = PDAClickableList(Super.Init(pos, size, mnu));
+
+		String emptyStr = StringTable.Localize("$PDA_EMPTY");
+		double emptyLabelXPos = self.box.size.X / 2;
+		double emptyLabelYPos = self.box.size.Y / 2;
+		double emptyLabelWidth = mnu.fnt.StringWidth(emptyStr);
+		emptyLabelXPos -= mnu.scrollbarWidth;
+		emptyLabelXPos -= (emptyLabelWidth / 2);
+		emptyLabelYPos -= mnu.GetFontHeight();
+
+		emptyLabel = new('PDALabel').Init
+		(
+			(emptyLabelXPos, emptyLabelYPos),
+			(0, 0),
+			text: emptyStr,
+			fnt: parentMenu.fnt,
+			wrap: false,
+			autoSize: true,
+			textColor: parentMenu.fntColor
+		);
+		emptyLabel.Pack(self);
+
 		return f;
+	}
+
+	override void Ticker(void)
+	{
+		Super.Ticker();
+
+		// Erase the empty message if the menu isn't empty
+		if (items.Size() > 0)
+		{
+			emptyLabel.Unpack();
+		}
 	}
 
 	override void OnUIEvent(PDAUiEvent ev)
