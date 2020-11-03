@@ -75,12 +75,16 @@ class PDAReader : Inventory
 {
 	// Has a DoomEdNum of 20000 defined inside MAPINFO
 
+	bool showTut;
+	property ShowTutorial : showTut;
+
 	Default
 	{
 		Tag "$PDA_READER";
+		PDAReader.ShowTutorial true;
 		Inventory.MaxAmount 1;
+		Inventory.PickUpMessage "$PDA_READER_PICKUP";
 		+Inventory.UNDROPPABLE
-		+Inventory.QUIET
 		+Inventory.INVBAR
 	}
 
@@ -104,15 +108,20 @@ class PDAReader : Inventory
 		return false;
 	}
 
-	/*
-	// For testing long scrolling lists
 	override bool TryPickup(in out Actor toucher)
 	{
 		if (Super.TryPickup(toucher))
 		{
+			/*
+			// For testing long scrolling lists
 			for (int i = 0; i < 50; i++)
 			{
 				toucher.A_GiveInventory("PDADummyPDA" .. i);
+			}
+			*/
+			if (toucher == players[consoleplayer].mo && showTut)
+			{
+				EventHandler.SendNetworkEvent("EV_ShowPDAReaderTutorial");
 			}
 
 			return true;
@@ -120,7 +129,6 @@ class PDAReader : Inventory
 
 		return false;
 	}
-	*/
 
 	//===========================================================================
 	//

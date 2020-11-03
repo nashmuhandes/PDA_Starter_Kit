@@ -7,6 +7,7 @@ version "4.5.0"
 #include "zscript/PDAMenuHandler.zc"
 #include "zscript/PDAEventHandler.zc"
 #include "zscript/PDAReader.zc"
+#include "zscript/PDAReaderTutorialMenu.zc"
 #include "zscript/PDA.zc"
 #include "zscript/PDADummyPDA.zc"
 

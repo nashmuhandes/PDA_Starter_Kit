@@ -66,54 +66,81 @@
 
 //===========================================================================
 //
-// PDAEventHandler
+// PDAReaderTutorialMenu
 //
 //===========================================================================
 
-class PDAEventHandler : EventHandler
+
+class PDAReaderTutorialMenu : GenericMenu
 {
-	override void NetworkProcess(ConsoleEvent e)
+	BrokenLines mMessage;
+	Font textFont;
+	int destWidth, destHeight;
+
+	override void Init(Menu parent)
 	{
-		PlayerPawn pmo = players[e.Player].mo;
-		if (!pmo) return;
+		Super.Init(parent);
 
-		// Handle stopping currently-playing PDA sounds
-		if (e.Name == 'EV_StopPDASound')
-		{
-			let pdaReader = pmo.FindInventory("PDAReader", true);
-			if (pdaReader && pmo == players[consoleplayer].mo)
-			{
-				pdaReader.A_StopSound(CHAN_VOICE);
-			}
-		}
-		// Show PDA Reader tutorial message
-		else if (e.Name == 'EV_ShowPDAReaderTutorial')
-		{
-			ShowPDAReaderTutorial();
-		}
+		String sInvUse;
+		Array<int> invUseKeys;
 
-		// Mark PDA as read
-		Array<String> strings;
-		strings.Clear();
-		e.Name.Split(strings, ":");
-		if ((strings[0] ~== "EV_MarkPDARead"))
+		Bindings.GetAllKeysForCommand(invUseKeys, "invuse");
+		sInvUse = KeyBindings.NameAllKeys(invUseKeys);
+
+		String message = StringTable.Localize("$PDA_READER_TUTORIAL");
+
+		textFont = OptionFont();
+		mMessage = textFont.BreakLines(String.Format(message, sInvUse), int(300 / NotifyFontScale));
+		destWidth = CleanWidth;
+		destHeight = CleanHeight;
+	}
+
+	override void Drawer(void)
+	{
+		Super.Drawer();
+
+		int i;
+		double y;
+		let fontheight = textFont.GetHeight() * NotifyFontScale;
+
+		y = destHeight / 2;
+
+		int c = mMessage.Count();
+		y -= c * fontHeight / 2;
+
+		for (i = 0; i < c; i++)
 		{
-			let pda = PDA(pmo.FindInventory(strings[1], true));
-			if (pda)
-			{
-				pda.isRead = true;
-			}
+			Screen.DrawText (textFont, Font.CR_UNTRANSLATED, destWidth / 2 - mMessage.StringWidth(i) * NotifyFontScale / 2, y, mMessage.StringAt(i),
+				DTA_VirtualWidth, destWidth, DTA_VirtualHeight, destHeight,
+				DTA_KeepRatio, true,
+				DTA_ScaleX, NotifyFontScale,
+				DTA_ScaleY, NotifyFontScale);
+			y += fontheight;
 		}
 	}
 
-	//===========================================================================
-	//
-	//
-	//
-	//===========================================================================
-
-	void ShowPDAReaderTutorial(void)
+	override bool MenuEvent(int mkey, bool fromcontroller)
 	{
-		Menu.SetMenu('PDAReaderTutorialMenu');
+		switch (mkey)
+		{
+			case MKEY_Enter:
+			case MKEY_Back:
+			default:
+				Close();
+				break;
+		}
+		return Super.MenuEvent(mkey, fromcontroller);
+	}
+
+	override bool MouseEvent(int type, int x, int y)
+	{
+		if (type == MOUSE_Release)
+		{
+			if (MenuEvent(MKEY_Enter, true))
+			{
+				return true;
+			}
+		}
+		return Super.MouseEvent(type, x, y);
 	}
 }
