@@ -6,7 +6,7 @@
 //
 //===========================================================================
 
-PDA_STARTER_KIT_VERSION = "v1.0";
+PDA_STARTER_KIT_VERSION = "v1.1";
 
 PDA_READER = "PDA Reader";
 PDA_PICKUP = "New PDA Entry: %s";
