@@ -433,6 +433,7 @@ class PDAClickableList : PDAScrollableFrame
 		{
 			currentSelection--;
 			UpdateSelection();
+			Menu.MenuSound("PDA/Interface/Hover");
 		}
 
 		if (currentSelection < GetTopMostSelection())
@@ -448,6 +449,7 @@ class PDAClickableList : PDAScrollableFrame
 		{
 			currentSelection++;
 			UpdateSelection();
+			Menu.MenuSound("PDA/Interface/Hover");
 		}
 
 		if (currentSelection > GetBottomMostSelection())
