@@ -86,7 +86,6 @@ class PDAScrollableFrame : PDAFrame
 	// The content frame is dynamically moved and resized
 	PDAFrame content;
 
-	const SCROLLBAR_WIDTH = 4;
 	PDAScrollBarTrack scrollbarTrack;
 	PDAScrollBar scrollbar;
 
@@ -111,11 +110,11 @@ class PDAScrollableFrame : PDAFrame
 		content.Pack(f);
 
 		// Create the scrollbar element, Y size also resized dynamically
-		scrollbarTrack = PDAScrollBarTrack(new('PDAScrollBarTrack').Init((size.X - SCROLLBAR_WIDTH, 0), (SCROLLBAR_WIDTH, size.Y), mnu));
+		scrollbarTrack = PDAScrollBarTrack(new('PDAScrollBarTrack').Init((size.X - parentMenu.scrollbarWidth, 0), (parentMenu.scrollbarWidth, size.Y), mnu));
 		scrollbarTrack.fillColor = Color(parentMenu.UIColor.R / 2, parentMenu.UIColor.G / 2, parentMenu.UIColor.B / 2);
 		scrollbarTrack.pack(f);
 
-		scrollbar = PDAScrollBar(new('PDAScrollBar').Init((size.X - SCROLLBAR_WIDTH, 0), (SCROLLBAR_WIDTH, 0)));
+		scrollbar = PDAScrollBar(new('PDAScrollBar').Init((size.X - parentMenu.scrollbarWidth, 0), (parentMenu.scrollbarWidth, 0)));
 		scrollbar.fillColor = parentMenu.UIColor;
 		scrollbar.pack(f);
 
@@ -453,7 +452,7 @@ class PDAClickableList : PDAScrollableFrame
 		let btn = PDAOwnedPDAButton(new('PDAOwnedPDAButton').Init
 		(
 			(0, currentLineYPos),
-			(box.size.X - SCROLLBAR_WIDTH, parentMenu.GetFontHeight()),
+			(box.size.X - parentMenu.scrollbarWidth, parentMenu.GetFontHeight()),
 			cmdHandler: parentMenu.handler,
 			command: cmdName .. ":" .. newItem
 		));
@@ -545,7 +544,7 @@ class PDAOwnedPDAsList : PDAClickableList
 		let btn = PDAOwnedPDAButton(new('PDAOwnedPDAButton').Init
 		(
 			(0, currentLineYPos),
-			(box.size.X - SCROLLBAR_WIDTH, parentMenu.GetFontHeight()),
+			(box.size.X - parentMenu.scrollbarWidth, parentMenu.GetFontHeight()),
 			cmdHandler: parentMenu.handler,
 			command: cmdName .. ":" .. newItem
 		));
@@ -629,7 +628,7 @@ class PDAContentText : PDAScrollableFrame
 		// Take scrollbar size into account (and add some padding)
 		// (I hope the width of a "0" is wide enough LOL)
 		Vector2 sizeAdjusted = size;
-		sizeAdjusted.X -= (PDAScrollableFrame.SCROLLBAR_WIDTH + parentMenu.fnt.GetCharWidth("0"));
+		sizeAdjusted.X -= (parentMenu.scrollbarWidth + parentMenu.fnt.GetCharWidth("0"));
 
 		text = new('PDALabel').Init
 		(

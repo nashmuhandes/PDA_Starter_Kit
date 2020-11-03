@@ -97,6 +97,17 @@ class PDAMenu : PDAGenericMenu
 	Vector2 pdaContentPos;
 	Vector2 pdaContentSize;
 
+	// Misc variables
+
+	// How many number of lines to scroll with the mousewheel
+	int mouseScrollAmount;
+
+	// How many number of lines to scroll with the keyboard/gamepad
+	int keyScrollAmount;
+
+	// Width of the scrollbar
+	int scrollbarWidth;
+
 	// Widgets
 
 	// PDA list (left)
@@ -105,12 +116,6 @@ class PDAMenu : PDAGenericMenu
 	// PDA content (right)
 	PDAImage pdaContentBackground;
 	PDAContentText pdaContentText;
-
-	// How many number of lines to scroll with the mousewheel
-	int mouseScrollAmount;
-
-	// How many number of lines to scroll with the keyboard/gamepad
-	int keyScrollAmount;
 
 	//===========================================================================
 	//
@@ -241,7 +246,8 @@ class PDAMenu : PDAGenericMenu
 		String bgPic, Vector2 bgPos, Vector2 bgSize,
 		Vector2 listPos, Vector2 listSize,
 		Vector2 ctPos, Vector2 ctSize,
-		int mScrAmount, int kScrAmount)
+		int mScrAmount, int kScrAmount,
+		int scrBarWidth)
 	{
 		baseResWidth = int(baseRes.X);
 		baseResHeight = int(baseRes.Y);
@@ -266,6 +272,8 @@ class PDAMenu : PDAGenericMenu
 
 		mouseScrollAmount = mScrAmount;
 		keyScrollAmount = kScrAmount;
+		
+		scrollbarWidth = scrBarWidth;
 	}
 
 	//===========================================================================

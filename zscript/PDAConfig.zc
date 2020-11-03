@@ -113,7 +113,10 @@ extend class PDAMenu
 			5,
 
 			// Number of lines to scroll with the keyboard/gamepad
-			3
+			3,
+
+			// Scrollbar width
+			4
 		);
 	}
 }
