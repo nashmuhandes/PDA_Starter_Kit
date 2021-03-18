@@ -97,7 +97,7 @@ class PDAReader : Inventory
 
 	override bool Use(bool pickup)
 	{
-		if (Owner == null) return true;
+		if (!Owner) return true;
 
 		if (Owner == players[consoleplayer].mo)
 		{
