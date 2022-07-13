@@ -37,6 +37,12 @@ class PDAReaderTutorialMenu : GenericMenu
 	Font textFont;
 	int destWidth, destHeight;
 
+	//===========================================================================
+	//
+	//
+	//
+	//===========================================================================
+
 	override void Init(Menu parent)
 	{
 		Super.Init(parent);

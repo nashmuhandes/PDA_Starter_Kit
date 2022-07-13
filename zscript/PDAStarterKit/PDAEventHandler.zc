@@ -35,7 +35,8 @@ class PDAEventHandler : EventHandler
 	override void NetworkProcess(ConsoleEvent e)
 	{
 		PlayerPawn pmo = players[e.Player].mo;
-		if (!pmo) return;
+		if (!pmo)
+			return;
 
 		// Handle stopping currently-playing PDA sounds
 		if (e.Name == 'EV_StopPDASound')

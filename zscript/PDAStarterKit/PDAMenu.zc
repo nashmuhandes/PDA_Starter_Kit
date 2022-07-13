@@ -288,14 +288,16 @@ class PDAMenu : PDAGenericMenu
 		int totalPDAs = 0;
 		for (Inventory item = pmo.Inv; item != NULL; item = item.Inv)
 		{
-			if (item is "PDA") totalPDAs++;
+			if (item is "PDA")
+				totalPDAs++;
 		}
 		return totalPDAs;
 	}
 
 	int GetFontHeight(void)
 	{
-		if (!fnt) return 0;
+		if (!fnt)
+			return 0;
 		return fnt.GetHeight();
 	}
 }

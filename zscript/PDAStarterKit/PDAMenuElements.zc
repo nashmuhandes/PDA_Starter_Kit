@@ -91,7 +91,8 @@ class PDAScrollableFrame : PDAFrame
 	{
 		Super.OnUIEvent(ev);
 
-		if (!content) return;
+		if (!content)
+			return;
 
 		if (ev.Type == UIEvent.Type_MouseMove)
 		{
@@ -215,6 +216,12 @@ class PDAScrollBarTrack : PDAColoredFrame
 	PDAMenu parentMenu;
 	int mouseX;
 	int mouseY;
+
+	//===========================================================================
+	//
+	//
+	//
+	//===========================================================================
 
 	PDAScrollBarTrack Init(Vector2 pos, Vector2 size, PDAMenu mnu)
 	{
@@ -437,7 +444,8 @@ class PDAClickableList : PDAScrollableFrame
 
 	virtual void AddLine(String newItem)
 	{
-		if (!content) return;
+		if (!content)
+			return;
 
 		class<Actor> cls = newItem;
 		String newItemTitle = StringTable.Localize(GetDefaultByType((class<Actor>)(cls)).GetTag());
@@ -498,6 +506,12 @@ class PDAOwnedPDALabel : PDALabel
 	PDAMenu parentMenu;
 	class<PDA> pdacls;
 
+	//===========================================================================
+	//
+	//
+	//
+	//===========================================================================
+
 	override void Drawer(void)
 	{
 		let pmo = players[consoleplayer].mo;
@@ -529,7 +543,8 @@ class PDAOwnedPDAsList : PDAClickableList
 {
 	override void AddLine(String newItem)
 	{
-		if (!content) return;
+		if (!content)
+			return;
 
 		class<Actor> cls = newItem;
 		String newItemTitle = StringTable.Localize(GetDefaultByType((class<Actor>)(cls)).GetTag());
@@ -589,6 +604,12 @@ class PDAOwnedPDAsList : PDAClickableList
 class PDAOwnedPDAButton : PDAColoredButton
 {
 	bool highlighted;
+
+	//===========================================================================
+	//
+	//
+	//
+	//===========================================================================
 
 	override void Drawer(void)
 	{
@@ -681,6 +702,13 @@ class PDAContentText : PDAScrollableFrame
 class PDAColoredFrame : PDAFrame
 {
 	Color fillColor;
+
+	//===========================================================================
+	//
+	//
+	//
+	//===========================================================================
+
 	override void Drawer(void)
 	{
 		Super.Drawer();
@@ -698,6 +726,13 @@ class PDAColoredFrame : PDAFrame
 class PDAColoredButton : PDAButton
 {
 	Color fillColor;
+
+	//===========================================================================
+	//
+	//
+	//
+	//===========================================================================
+
 	override void Drawer(void)
 	{
 		Super.Drawer();

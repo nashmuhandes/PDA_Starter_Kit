@@ -38,6 +38,12 @@ class PDAReader : Inventory
 	bool showTut;
 	property ShowTutorial : showTut;
 
+	//===========================================================================
+	//
+	//
+	//
+	//===========================================================================
+
 	Default
 	{
 		Tag "$PDA_READER";
@@ -57,7 +63,8 @@ class PDAReader : Inventory
 
 	override bool Use(bool pickup)
 	{
-		if (!Owner) return true;
+		if (!Owner)
+			return true;
 
 		if (Owner == players[consoleplayer].mo)
 		{

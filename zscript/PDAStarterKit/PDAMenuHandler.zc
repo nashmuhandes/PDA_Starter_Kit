@@ -35,10 +35,18 @@ class PDAMenuHandler : PDAHandler
 {
 	PDAMenu menu;
 
+	//===========================================================================
+	//
+	//
+	//
+	//===========================================================================
+
 	override void ButtonClickCommand(PDAButton caller, String command)
 	{
-		if (!menu) return;
-		if (!menu.pdaContentText || !menu.pdaContentBackground) return;
+		if (!menu)
+			return;
+		if (!menu.pdaContentText || !menu.pdaContentBackground)
+			return;
 
 		// Parse the command
 		Array<String> strings;
@@ -46,7 +54,8 @@ class PDAMenuHandler : PDAHandler
 		command.Split(strings, ":");
 
 		// Return if the array has less than 2 strings
-		if (strings.Size() < 2) return;
+		if (strings.Size() < 2)
+			return;
 
 		if ((strings[0] ~== "ActivatePDA"))
 		{
