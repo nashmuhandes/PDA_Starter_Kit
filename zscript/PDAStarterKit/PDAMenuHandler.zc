@@ -78,7 +78,7 @@ class PDAMenuHandler : PDAHandler
 			menu.pdaContentText.SetText(pdaText);
 
 			// Update current selection
-			int index = menu.pdaList.items.Find(PDAColoredButton(caller));
+			int index = menu.pdaList.items.Find(PDAOwnedPDAButton(caller));
 			menu.pdaList.currentSelection = index;
 			menu.pdaList.UpdateSelection();
 
