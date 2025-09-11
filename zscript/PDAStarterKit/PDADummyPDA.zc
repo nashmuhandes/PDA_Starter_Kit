@@ -24,9 +24,7 @@ SOFTWARE.
 
 ****************************************************************************/
 
-class PDADummyPDA : PDA
-{
-}
+class PDADummyPDA : PDA abstract {}
 
 class PDADummyPDA0 : PDADummyPDA {}
 class PDADummyPDA1 : PDADummyPDA {}

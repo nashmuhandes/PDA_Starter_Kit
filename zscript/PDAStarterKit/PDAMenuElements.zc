@@ -40,7 +40,7 @@ SOFTWARE.
 
 class PDAScrollableFrame : PDAFrame
 {
-	// Reference to the menu is needed for fonts, colours, things like that
+	// Reference to the menu is needed for fonts, colors, things like that
 	PDAMenu parentMenu;
 
 	// The content frame is dynamically moved and resized
@@ -104,13 +104,9 @@ class PDAScrollableFrame : PDAFrame
 		{
 			// Mousewheel scrolling
 			if (ev.Type == UIEvent.Type_WheelUp)
-			{
 				ScrollUp(parentMenu.mouseScrollAmount);
-			}
 			else if (ev.Type == UIEvent.Type_WheelDown)
-			{
 				ScrollDown(parentMenu.mouseScrollAmount);
-			}
 		}
 	}
 
@@ -157,17 +153,13 @@ class PDAScrollableFrame : PDAFrame
 	void ScrollUp(int scrollAmount = 5)
 	{
 		if (content.box.pos.Y < 0)
-		{
 			Scroll(scrollAmount);
-		}
 	}
 
 	void ScrollDown(int scrollAmount = 5)
 	{
 		if (content.box.pos.Y > GetLowestPos())
-		{
 			Scroll(-scrollAmount);
-		}
 	}
 
 	//===========================================================================
@@ -275,9 +267,7 @@ class PDAScrollBarTrack : PDAColoredFrame
 //
 //===========================================================================
 
-class PDAScrollBar : PDAColoredFrame
-{
-}
+class PDAScrollBar : PDAColoredFrame {}
 
 //===========================================================================
 //
@@ -341,9 +331,7 @@ class PDAClickableList : PDAScrollableFrame
 
 		// Erase the empty message if the menu isn't empty
 		if (items.Size() > 0)
-		{
 			emptyLabel.Unpack();
-		}
 	}
 
 	override void OnUIEvent(PDAUiEvent ev)
@@ -386,9 +374,7 @@ class PDAClickableList : PDAScrollableFrame
 				items[i].highlighted = false;
 
 				if (currentSelection >= 0)
-				{
 					items[currentSelection].highlighted = true;
-				}
 			}
 		}
 	}
@@ -404,9 +390,7 @@ class PDAClickableList : PDAScrollableFrame
 		}
 
 		if (currentSelection < GetTopMostSelection())
-		{
 			ScrollUp(1);
-		}
 	}
 
 	void SelectNextItem(void)
@@ -420,9 +404,7 @@ class PDAClickableList : PDAScrollableFrame
 		}
 
 		if (currentSelection > GetBottomMostSelection())
-		{
 			ScrollDown(1);
-		}
 	}
 
 	//===========================================================================
@@ -519,10 +501,10 @@ class PDAOwnedPDALabel : PDALabel
 		{
 			// Get read/unread status
 			let pdainv = PDA(pmo.FindInventory(pdacls, true));
+
 			if (pdainv)
-			{
 				textColor = pdainv.isRead ? parentMenu.pdaListReadColor : parentMenu.pdaListUnreadColor;
-			}
+
 			Super.Drawer();
 		}
 		else
@@ -616,9 +598,7 @@ class PDAOwnedPDAButton : PDAColoredButton
 		Super.Drawer();
 
 		if (highlighted)
-		{
 			Fill((0, 0), box.size, fillColor, 1.0);
-		}
 	}
 }
 
@@ -738,8 +718,6 @@ class PDAColoredButton : PDAButton
 		Super.Drawer();
 
 		if (curButtonState == ButtonState_Hover)
-		{
 			Fill((0, 0), box.size, fillColor, 1.0);
-		}
 	}
 }

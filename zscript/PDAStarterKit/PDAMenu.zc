@@ -115,9 +115,7 @@ class PDAMenu : PDAGenericMenu
 
 		// Always highlight the first entry when the menu spawns
 		if (pdaList)
-		{
 			pdaList.UpdateSelection();
-		}
 
 		// Play menu open sound
 		Menu.MenuSound("PDA/Interface/Menu_Open");
@@ -140,38 +138,36 @@ class PDAMenu : PDAGenericMenu
 		{
 			switch (mkey)
 			{
-				// PDA selection
-				case MKEY_Up:
-					pdaList.SelectPreviousItem();
-					break;
-				case MKEY_Down:
-					pdaList.SelectNextItem();
-					break;
+			// PDA selection
+			case MKEY_Up:
+				pdaList.SelectPreviousItem();
+				break;
+			case MKEY_Down:
+				pdaList.SelectNextItem();
+				break;
 
-				// Read a PDA
-				case MKEY_Enter:
-					if (pdaList.items.Size() > 0 && pdaList.currentSelection >= 0)
-					{
-						handler.ButtonClickCommand(pdaList.items[pdaList.currentSelection], pdaList.items[pdaList.currentSelection].command);
-					}
-					break;
+			// Read a PDA
+			case MKEY_Enter:
+				if (pdaList.items.Size() > 0 && pdaList.currentSelection >= 0)
+					handler.ButtonClickCommand(pdaList.items[pdaList.currentSelection], pdaList.items[pdaList.currentSelection].command);
+				break;
 
-				// Scroll content text
-				case MKEY_PageUp:
-					pdaContentText.ScrollUp(keyScrollAmount);
-					break;
-				case MKEY_PageDown:
-					pdaContentText.ScrollDown(keyScrollAmount);
-					break;
+			// Scroll content text
+			case MKEY_PageUp:
+				pdaContentText.ScrollUp(keyScrollAmount);
+				break;
+			case MKEY_PageDown:
+				pdaContentText.ScrollDown(keyScrollAmount);
+				break;
 
-				// Close the menu and play the close menu sound
-				case MKEY_Back:
-					Menu.MenuSound("PDA/Interface/Menu_Close");
-					Close();
-					return true;
+			// Close the menu and play the close menu sound
+			case MKEY_Back:
+				Menu.MenuSound("PDA/Interface/Menu_Close");
+				Close();
+				return true;
 
-				default:
-					break;
+			default:
+				break;
 			}
 		}
 
@@ -186,9 +182,7 @@ class PDAMenu : PDAGenericMenu
 			// Stop any PDA sounds currently playing when exiting the menu
 			let pdaReader = pmo.FindInventory("PDAReader", true);
 			if (pdaReader && pmo == players[consoleplayer].mo)
-			{
 				EventHandler.SendNetworkEvent("EV_StopPDASound");
-			}
 		}
 
 		Super.OnDestroy();
@@ -254,9 +248,7 @@ class PDAMenu : PDAGenericMenu
 		for (Inventory item = pmo.Inv; item != NULL; item = item.Inv)
 		{
 			if (item is "PDA")
-			{
 				myPDAs.Push(item);
-			}
 		}
 
 		// Sort PDA array alphabetically
@@ -277,9 +269,7 @@ class PDAMenu : PDAGenericMenu
 		for (int i = 0; i < myPDAs.Size(); i++)
 		{
 			if (myPDAs[i])
-			{
 				pdaList.AddLine(myPDAs[i].GetClassName());
-			}
 		}
 	}
 

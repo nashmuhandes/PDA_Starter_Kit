@@ -89,11 +89,11 @@ class PDAReaderTutorialMenu : GenericMenu
 	{
 		switch (mkey)
 		{
-			case MKEY_Enter:
-			case MKEY_Back:
-			default:
-				Close();
-				break;
+		case MKEY_Enter:
+		case MKEY_Back:
+		default:
+			Close();
+			break;
 		}
 		return Super.MenuEvent(mkey, fromcontroller);
 	}
@@ -103,9 +103,7 @@ class PDAReaderTutorialMenu : GenericMenu
 		if (type == MOUSE_Release)
 		{
 			if (MenuEvent(MKEY_Enter, true))
-			{
 				return true;
-			}
 		}
 		return Super.MouseEvent(type, x, y);
 	}

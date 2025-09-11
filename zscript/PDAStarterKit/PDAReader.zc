@@ -67,10 +67,7 @@ class PDAReader : Inventory
 			return true;
 
 		if (Owner == players[consoleplayer].mo)
-		{
-			// open the PDA reader menu
 			Menu.SetMenu('PDAMenu');
-		}
 
 		return false;
 	}
@@ -87,9 +84,7 @@ class PDAReader : Inventory
 			}
 			*/
 			if (toucher == players[consoleplayer].mo && showTut)
-			{
 				EventHandler.SendNetworkEvent("EV_ShowPDAReaderTutorial");
-			}
 
 			return true;
 		}

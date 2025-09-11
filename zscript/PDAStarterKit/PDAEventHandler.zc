@@ -43,9 +43,7 @@ class PDAEventHandler : EventHandler
 		{
 			let pdaReader = pmo.FindInventory("PDAReader", true);
 			if (pdaReader && pmo == players[consoleplayer].mo)
-			{
 				pdaReader.A_StopSound(CHAN_VOICE);
-			}
 		}
 		// Show PDA Reader tutorial message
 		else if (e.Name == 'EV_ShowPDAReaderTutorial')
@@ -61,9 +59,7 @@ class PDAEventHandler : EventHandler
 		{
 			let pda = PDA(pmo.FindInventory(strings[1], true));
 			if (pda)
-			{
 				pda.isRead = true;
-			}
 		}
 	}
 

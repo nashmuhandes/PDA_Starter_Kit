@@ -36,10 +36,10 @@ extend class PDAMenu
 			// Set PDA menu font
 			"PDAFONT",
 
-			// Overall UI colour theme (in RGB)
+			// Overall UI color theme (in RGB)
 			(118, 118, 206),
 
-			// Font colour
+			// Font color
 			Font.CR_LightBlue,
 
 			// Unread PDA color
