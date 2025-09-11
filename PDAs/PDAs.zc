@@ -14,8 +14,8 @@ class TestZSPDA : PDA
 
 	States
 	{
-		Spawn:
-			NOTE A -1;
-			Stop;
+	Spawn:
+		NOTE A -1;
+		Stop;
 	}
 }
